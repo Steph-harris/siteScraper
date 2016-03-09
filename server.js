@@ -18,6 +18,16 @@ app.use('/img', express.static('public/images'));
 app.engine('handlebars', exphbs({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 
+request('http://www.mets.com', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    $ = cheerio.load(body);
+    $('#homepage_container a').each(function(i, element){
+      var ad = $(this).prev();
+      console.log(ad.text()); // Show the HTML for this page.
+    });
+  }
+});
+
 app.get("/", function(req, res){
   res.render("home");
 });
