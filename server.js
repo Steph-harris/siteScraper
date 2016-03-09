@@ -10,6 +10,18 @@ var mongoose = require('mongoose');
 var app = express();
 var PORT = process.env.PORT || 8080;
 
+//get css,js, or images from files in public folder
+app.use('/scripts', express.static('public/scripts'));
+app.use('/css', express.static('public/css'));
+app.use('/img', express.static('public/images'));
+
+app.engine('handlebars', exphbs({defaultLayout:'main'}));
+app.set('view engine', 'handlebars');
+
+app.get("/", function(req, res){
+  res.render("home");
+});
+
 app.listen(PORT, function(){
   console.log("Listening on port %s", PORT);
 });
