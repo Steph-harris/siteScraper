@@ -1,0 +1,20 @@
+{
+  "name": "wk18hw",
+  "version": "1.0.0",
+  "description": "app to scrape a website's data and store it in mongo",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Stephanie Harris",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.0",
+    "cheerio": "^0.20.0",
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.4.6",
+    "request": "^2.69.0"
+  }
+}
