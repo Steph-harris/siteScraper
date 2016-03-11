@@ -3,7 +3,9 @@ var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
-var mongoose = require('mongoose');
+var mongojs = require('mongojs')
+var db = mongojs("scraped", ["items"])
+// var mongoose = require('mongoose');
 
 // mongoose.connect('mongodb://localhost/my_database');
 
