@@ -64,8 +64,16 @@ app.get("/", function(req, res){
 
 app.get("/scrapedData", function(req, res){
   //grab all data from Headline table
-  // Headline.find() etc.
-  res.render("home", {headline});
+  Headline.find(function(err, headlines){
+    if(err){
+      throw (err);
+    } else {
+      res.render("home", {headlines});
+
+      // console.log(headlines);
+      // res.json(headlines);
+    }
+  });
 });
 
 

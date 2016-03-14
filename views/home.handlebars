@@ -1,4 +1,4 @@
-<h2>Welcome to the Site Scraper!</h2>
+<h1>Welcome to the Site Scraper!</h1>
 <p>Can you tell what other site is powering this one???</p>
 
 <div class="row">
@@ -10,6 +10,8 @@
 <div>
   <h2>Headlines</h2>
   <ul id="topNews">
-
+    {{#each headlines}}
+      <li><a href="{{headLink}}">{{headline}}</a></li>
+    {{/each}}
   </ul>
 </div>

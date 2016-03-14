@@ -3,7 +3,7 @@ $(document).ready(function(){
     e.preventDefault();
     $.getJSON("/scrapedData", function(results){
       $("topNews").empty();
-      results.forEach(function(headline){
+      results.forEach(function(headlines){
         //build li w/ href
       });
     });
