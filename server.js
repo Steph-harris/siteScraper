@@ -1,5 +1,4 @@
 var express = require("express");
-var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
@@ -10,13 +9,9 @@ var app = express();
 var PORT = process.env.PORT || 8080;
 
 //get css,js, or images from files in public folder
-app.use('/scripts', express.static('public/scripts'));
-app.use('/css', express.static('public/css'));
-app.use('/img', express.static('public/images'));
+app.use(express.static('public'));
 
-app.engine('handlebars', exphbs({defaultLayout:'main'}));
-app.set('view engine', 'handlebars');
-
+//database configuration
 mongoose.connect('mongodb://localhost/scraped');
 var db = mongoose.connection;
 
