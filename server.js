@@ -26,21 +26,23 @@ db.once('open', function() {
 var Note = require('./models/note.js');
 var Headline = require('./models/headline.js');
 
-app.get("/", function(req, res){
   request('http://www.mlb.com/home', function (error, response, body) {
     if (!error && response.statusCode == 200) {
       $ = cheerio.load(body);
       $('#latest-news ul li a').each(function(i, element){
         var headline = $(element).text();
         var headLink = $(element).attr('href');
-        // $(this).add('#anotherSelector')
-        console.log(headline); // Show the HTML for this page.
-        console.log(headLink); // Show the HTML for this page.
+
+        var newHeadline = new Headline ({
+          headline: headline,
+          headLink: headLink
+        });
+
+        console.log(headline);
+        console.log(headLink);
+
         if(headline && headLink){
-          db.scraped.save({
-            headline: headline,
-            headLink: headLink
-          }, function(err, saved){
+          newHeadline.save(function(err, saved){
             if(err){
               console.log(err);
             } else {
@@ -51,8 +53,11 @@ app.get("/", function(req, res){
       });
     }
   });
+app.get("/", function(req, res){
+
   res.send("saved to db");
 });
+
 
 app.listen(PORT, function(){
   console.log("Listening on port %s", PORT);
