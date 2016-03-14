@@ -3,12 +3,8 @@ var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
-var mongojs = require('mongojs');
+var mongoose = require('mongoose');
 var logger = require("morgan");
-var db = mongojs("scraped", ["items"])
-// var mongoose = require('mongoose');
-
-// mongoose.connect('mongodb://localhost/my_database');
 
 var app = express();
 var PORT = process.env.PORT || 8080;
@@ -21,18 +17,35 @@ app.use('/img', express.static('public/images'));
 app.engine('handlebars', exphbs({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 
-request('http://www.mets.com', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    $ = cheerio.load(body);
-    $('#homepage_container a').each(function(i, element){
-      var ad = $(this).prev();
-      console.log(ad.text()); // Show the HTML for this page.
-    });
-  }
-});
+mongoose.connect('mongodb://localhost/scraped');
+var db = mongoose.connection;
 
 app.get("/", function(req, res){
-  res.render("home");
+  request('http://www.mlb.com/home', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      $ = cheerio.load(body);
+      $('#latest-news ul li a').each(function(i, element){
+        var headline = $(element).text();
+        var headLink = $(element).attr('href');
+        // $(this).add('#anotherSelector')
+        console.log(headline); // Show the HTML for this page.
+        console.log(headLink); // Show the HTML for this page.
+        if(headline && headLink){
+          db.scraped.save({
+            headline: headline,
+            headLink: headLink
+          }, function(err, saved){
+            if(err){
+              console.log(err);
+            } else {
+              console.log("saved to db");
+            }
+          });
+        }
+      });
+    }
+  });
+  res.send("saved to db");
 });
 
 app.listen(PORT, function(){
