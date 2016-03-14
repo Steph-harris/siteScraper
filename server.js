@@ -15,6 +15,17 @@ app.use(express.static('public'));
 mongoose.connect('mongodb://localhost/scraped');
 var db = mongoose.connection;
 
+db.on('error', function(err) {
+  console.log('Mongoose Error: ', err);
+});
+db.once('open', function() {
+  console.log('Mongoose connection successful.');
+});
+
+//Require Schemas
+var Note = require('./models/note.js');
+var Headline = require('./models/headline.js');
+
 app.get("/", function(req, res){
   request('http://www.mlb.com/home', function (error, response, body) {
     if (!error && response.statusCode == 200) {
