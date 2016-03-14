@@ -3,9 +3,11 @@ $(document).ready(function(){
     e.preventDefault();
     $.getJSON("/scrapedData", function(results){
       $("topNews").empty();
-      results.forEach(function(headlines){
-        //build li w/ href
-      });
+      for(var i = 0; i< results.length; i++){
+        var newLink = "<li>";
+        newLink += "<a href=" + results[i].headLink + ">" + results[i].headline + "</a></li>";
+        $("#topNews").append(newLink);
+      }
     });
   });
 });
