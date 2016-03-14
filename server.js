@@ -1,4 +1,5 @@
 var express = require("express");
+var exphbs = require("express-handlebars");
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
@@ -10,6 +11,9 @@ var PORT = process.env.PORT || 8080;
 
 //get css,js, or images from files in public folder
 app.use(express.static('public'));
+
+app.engine('handlebars', exphbs({defaultLayout:'main'}));
+app.set('view engine', 'handlebars');
 
 //database configuration
 mongoose.connect('mongodb://localhost/scraped');
@@ -26,36 +30,42 @@ db.once('open', function() {
 var Note = require('./models/note.js');
 var Headline = require('./models/headline.js');
 
-  request('http://www.mlb.com/home', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      $ = cheerio.load(body);
-      $('#latest-news ul li a').each(function(i, element){
-        var headline = $(element).text();
-        var headLink = $(element).attr('href');
+  // request('http://www.mlb.com/home', function (error, response, body) {
+  //   if (!error && response.statusCode == 200) {
+  //     $ = cheerio.load(body);
+  //     $('#latest-news ul li a').each(function(i, element){
+  //       var headline = $(element).text();
+  //       var headLink = $(element).attr('href');
 
-        var newHeadline = new Headline ({
-          headline: headline,
-          headLink: headLink
-        });
+  //       var newHeadline = new Headline ({
+  //         headline: headline,
+  //         headLink: headLink
+  //       });
 
-        console.log(headline);
-        console.log(headLink);
+  //       console.log(headline);
+  //       console.log(headLink);
 
-        if(headline && headLink){
-          newHeadline.save(function(err, saved){
-            if(err){
-              console.log(err);
-            } else {
-              console.log("saved to db");
-            }
-          });
-        }
-      });
-    }
-  });
+  //       if(headline && headLink){
+  //         newHeadline.save(function(err, saved){
+  //           if(err){
+  //             console.log(err);
+  //           } else {
+  //             console.log("saved to db");
+  //           }
+  //         });
+  //       }
+  //     });
+  //   }
+  // });
+
 app.get("/", function(req, res){
+  res.render("home");
+});
 
-  res.send("saved to db");
+app.get("/scrapedData", function(req, res){
+  //grab all data from Headline table
+  // Headline.find() etc.
+  res.render("home", {headline});
 });
 
 

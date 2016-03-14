@@ -10,9 +10,21 @@
       <p>Can you tell what other site is powering this one???</p>
     </div>
 
-    {{{ body }}}
+    <div class="row">
+      <form method="GET" action="/scrapedData">
+        <button class="secondary hollow button" id="dataGet" type="button">Scrape</button>
+      </form>
+    </div>
+
+    <div>
+      <h2>Headlines</h2>
+      <ul id="topNews">
+
+      </ul>
+    </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.0/foundation.min.js"></script>
+    <script type="text/javascript" src="/scripts/scraped.js"></script>
   </body>
 </html>
