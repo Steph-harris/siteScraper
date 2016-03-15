@@ -13,7 +13,14 @@ h1, p {
   color: #F7742C;
 }
 
-.main-stories li a {
+.main-stories p a {
   color: #004685;
   font-weight: bold;
+}
+.main-stories p {
+  text-align: left;
+}
+
+.main-stories p a:hover {
+  color:#F7742C;
 }
