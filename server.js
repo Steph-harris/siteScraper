@@ -12,6 +12,7 @@ var PORT = process.env.PORT || 8080;
 //get css,js, or images from files in public folder
 app.use(express.static('public'));
 
+app.use(logger('dev'));
 app.use(bodyParser.urlencoded());
 
 app.engine('handlebars', exphbs({defaultLayout:'main'}));
@@ -78,18 +79,23 @@ app.get("/scrapedData", function(req, res){
   });
 });
 
-app.post("/newNote", function(req, res){
+app.post("/newNote/:id", function(req, res){
+  debugger;
   var newNote = new Note(req.body);
+
   newNote.save(function(err, doc){
     if(err){
       res.send(err);
     } else {
+      // res.send("saved");
       //Find headline and add this note id
-      Headline.findOneAndUpdate({}, {$push:{'notes': doc_.id}}, {new:true}, function(err, doc){
+      Headline.findOneAndUpdate({
+        _id:req.params.id
+      }, {$push:{'notes': doc._id}}, {new:true}, function(err, doc){
         if(err){
           res.send(err);
         } else {
-          res.send(doc);
+          res.redirect("/");
         }
       });
     }

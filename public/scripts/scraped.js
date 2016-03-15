@@ -4,13 +4,14 @@ $(document).ready(function(){
     $("topNews").empty();
 
     for(var i = 0; i< results.length; i++){
+      //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
       newLink += results[i].headLink
       newLink += ">" + results[i].headline
       newLink += "</a></p>";
-
-      var addNote = "<div><form method='POST' action='/newNote'>"
+      //creates form for inputting notes to this headline
+      var addNote = "<div><form method='POST' action='/newNote/"+ results[i]._id +"'>"
       addNote += "<label>Title"
       addNote += '<input type="text" name= "title" placeholder="Enter text">'
       addNote += '</label>'
