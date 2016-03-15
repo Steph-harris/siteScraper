@@ -30,33 +30,33 @@ db.once('open', function() {
 var Note = require('./models/note.js');
 var Headline = require('./models/headline.js');
 
-  // request('http://www.mlb.com/home', function (error, response, body) {
-  //   if (!error && response.statusCode == 200) {
-  //     $ = cheerio.load(body);
-  //     $('#latest-news ul li a').each(function(i, element){
-  //       var headline = $(element).text();
-  //       var headLink = $(element).attr('href');
+  request('http://www.mlb.com/home', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      $ = cheerio.load(body);
+      $('#latest-news ul li a').each(function(i, element){
+        var headline = $(element).text();
+        var headLink = $(element).attr('href');
 
-  //       var newHeadline = new Headline ({
-  //         headline: headline,
-  //         headLink: headLink
-  //       });
+        var newHeadline = new Headline ({
+          headline: headline,
+          headLink: headLink
+        });
 
-  //       console.log(headline);
-  //       console.log(headLink);
+        console.log(headline);
+        console.log(headLink);
 
-  //       if(headline && headLink){
-  //         newHeadline.save(function(err, saved){
-  //           if(err){
-  //             console.log(err);
-  //           } else {
-  //             console.log("saved to db");
-  //           }
-  //         });
-  //       }
-  //     });
-  //   }
-  // });
+        if(headline && headLink){
+          newHeadline.save(function(err, saved){
+            if(err){
+              console.log(err);
+            } else {
+              console.log("saved to db");
+            }
+          });
+        }
+      });
+    }
+  });
 
 app.get("/", function(req, res){
   res.render("home");

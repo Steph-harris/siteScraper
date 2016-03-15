@@ -1,0 +1,19 @@
+body {
+  color: #004685;
+  background: url("/images/baseball.jpg");
+  background-size: cover;
+}
+
+h1, p {
+  text-align: center;
+}
+
+.main-stories {
+  background-color: rgba(255,255,255,.8);
+  color: #F7742C;
+}
+
+.main-stories li a {
+  color: #004685;
+  font-weight: bold;
+}
