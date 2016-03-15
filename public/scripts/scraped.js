@@ -12,9 +12,7 @@ $(document).ready(function(){
       newLink += "</a></p>";
 
       //displays notes associated w/ headline
-      if(results[i].notes.length < 1){
-        console.log("empty");
-      } else {
+      if(results[i].notes.length > 1){
         for(var j=0; j<results[i].notes.length; j++){
           console.log("this is a note");
         }
