@@ -11,6 +11,13 @@ $(document).ready(function(){
       newLink += "</a></p>";
 
       var addNote = "<div><form method='POST' action='/newNote'>"
+      addNote += "<label>Title"
+      addNote += '<input type="text" name= "title" placeholder="Enter text">'
+      addNote += '</label>'
+      addNote += '<label>'
+      addNote += 'Description'
+      addNote += '<textarea name= "body" placeholder="None"></textarea>'
+      addNote += '</label>'
       addNote += "<button class='success button' href='#'>"
       addNote += "Add Note</button>"
       addNote += "</form></div>"

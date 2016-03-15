@@ -76,6 +76,12 @@ app.get("/scrapedData", function(req, res){
   });
 });
 
+app.post("/newNote", function(req, res){
+  debugger;
+  console.log(req.body);
+  res.send("received");
+});
+
 
 app.listen(PORT, function(){
   console.log("Listening on port %s", PORT);
