@@ -12,6 +12,8 @@ var PORT = process.env.PORT || 8080;
 //get css,js, or images from files in public folder
 app.use(express.static('public'));
 
+app.use(bodyParser.urlencoded());
+
 app.engine('handlebars', exphbs({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 
@@ -77,9 +79,21 @@ app.get("/scrapedData", function(req, res){
 });
 
 app.post("/newNote", function(req, res){
-  debugger;
-  console.log(req.body);
-  res.send("received");
+  var newNote = new Note(req.body);
+  newNote.save(function(err, doc){
+    if(err){
+      res.send(err);
+    } else {
+      //Find headline and add this note id
+      Headline.findOneAndUpdate({}, {$push:{'notes': doc_.id}}, {new:true}, function(err, doc){
+        if(err){
+          res.send(err);
+        } else {
+          res.send(doc);
+        }
+      });
+    }
+  });
 });
 
 
