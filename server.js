@@ -33,33 +33,33 @@ db.once('open', function() {
 var Note = require('./models/note.js');
 var Headline = require('./models/headline.js');
 
-  request('http://www.mlb.com/home', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      $ = cheerio.load(body);
-      $('#latest-news ul li a').each(function(i, element){
-        var headline = $(element).text();
-        var headLink = $(element).attr('href');
+request('http://www.mlb.com/home', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    $ = cheerio.load(body);
+    $('#latest-news ul li a').each(function(i, element){
+      var headline = $(element).text();
+      var headLink = $(element).attr('href');
 
-        var newHeadline = new Headline ({
-          headline: headline,
-          headLink: headLink
-        });
-
-        console.log(headline);
-        console.log(headLink);
-
-        if(headline && headLink){
-          newHeadline.save(function(err, saved){
-            if(err){
-              console.log(err);
-            } else {
-              console.log("saved to db");
-            }
-          });
-        }
+      var newHeadline = new Headline ({
+        headline: headline,
+        headLink: headLink
       });
-    }
-  });
+
+      console.log(headline);
+      console.log(headLink);
+
+      if(headline && headLink){
+        newHeadline.save(function(err, saved){
+          if(err){
+            console.log(err);
+          } else {
+            console.log("saved to db");
+          }
+        });
+      }
+    });
+  }
+});
 
 app.get("/", function(req, res){
   res.render("home");
@@ -67,27 +67,39 @@ app.get("/", function(req, res){
 
 app.get("/scrapedData", function(req, res){
   //grab all data from Headline table
-  Headline.find({}, function(err, headlines){
-    if(err){
-      throw (err);
-    } else {
-      // res.render("home", {headlines});
-
-      console.log(headlines);
-      res.json(headlines);
-    }
-  });
+  Headline.find({})
+    .populate("notes")
+    .exec(function(err, dbHeadlines){
+      if(err){
+        res.send(err);
+      } else {
+        res.send(dbHeadlines);
+      }
+    });
 });
 
+
+// app.get("/scrapedData", function(req, res){
+//   //grab all data from Headline table
+//   Headline.find({}, function(err, headlines){
+//     if(err){
+//       throw (err);
+//     } else {
+//       // res.render("home", {headlines});
+
+//       console.log(headlines);
+//       res.json(headlines);
+//     }
+//   });
+// });
+
 app.post("/newNote/:id", function(req, res){
-  debugger;
   var newNote = new Note(req.body);
 
   newNote.save(function(err, doc){
     if(err){
       res.send(err);
     } else {
-      // res.send("saved");
       //Find headline and add this note id
       Headline.findOneAndUpdate({
         _id:req.params.id
