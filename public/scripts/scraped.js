@@ -3,7 +3,7 @@ $(document).ready(function(){
   $.getJSON("/scrapedData", function(results){
     $("topNews").empty();
 
-    for(var i = 0; i< results.length; i++){
+    for(var i = 0; i< 5; i++){
       //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
@@ -12,11 +12,24 @@ $(document).ready(function(){
       newLink += "</a></p>";
 
       //displays notes associated w/ headline
-      if(results[i].notes.length > 1){
+      if(results[i].notes.length >= 1){
         for(var j=0; j<results[i].notes.length; j++){
-          console.log("this is a note");
+          console.log(results[i].notes[j].title);
+          console.log(results[i].notes[j].body);
+          //build div w/ notes
+          var notesDisplay += "<p><span>" + results[i].notes[j].title
+          notesDisplay += "</span>: " + results[i].notes[j].body + "</p>"
+
+          // creates delete button for corresponding note
+          var delNote = "<div><form method='POST' action='/deleteNote'>"
+          delNote += "<button class='alert tiny button' href='#'>"
+          delNote += "Delete Note</button>"
+          delNote += "</form></div>"
+
+         // newLink.append(delNote)
         }
       }
+
       //creates form for inputting notes to this headline
       var addNote = "<div><form method='POST' action='/newNote/"+ results[i]._id +"'>"
       addNote += "<label>Title"
@@ -28,15 +41,9 @@ $(document).ready(function(){
       addNote += "Add Note</button>"
       addNote += "</form></div>"
 
-      // var delNote
-      var delNote = "<div><form method='POST' action='/deleteNote'>"
-      delNote += "<button class='alert button' href='#'>"
-      delNote += "Delete Note</button>"
-      delNote += "</form></div>"
-
       // "<button class="alert hollow button" href="#">Alert Color</button>"
       // $("newLink");
-      $("#topNews").after(delNote).after(addNote).after(newLink);
+      $("#topNews").after(addNote).after(newLink);
     }
   });
 
