@@ -17,7 +17,8 @@ $(document).ready(function(){
           console.log(results[i].notes[j].title);
           console.log(results[i].notes[j].body);
           //build div w/ notes
-          var notesDisplay += "<p><span>" + results[i].notes[j].title
+          var notesDisplay = "<p><span>"
+          notesDisplay += results[i].notes[j].title.toUpperCase()
           notesDisplay += "</span>: " + results[i].notes[j].body + "</p>"
 
           // creates delete button for corresponding note
@@ -26,7 +27,7 @@ $(document).ready(function(){
           delNote += "Delete Note</button>"
           delNote += "</form></div>"
 
-         // newLink.append(delNote)
+         $("#topNews").after(notesDisplay);
         }
       }
 

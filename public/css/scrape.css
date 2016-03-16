@@ -16,7 +16,7 @@ h1, p {
   padding: 5%;
 }
 
-.main-stories p a {
+.main-stories p a, span {
   color: #004685;
   font-weight: bold;
 }
