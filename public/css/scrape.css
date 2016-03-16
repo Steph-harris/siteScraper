@@ -27,3 +27,14 @@ h1, p {
 .main-stories p a:hover {
   color:#F7742C;
 }
+
+.weatherWidget {
+  position: absolute;
+}
+
+@media (max-width:639px) {
+  .weatherWidget {
+  position: static;
+  margin-bottom: 10px;
+  }
+}
