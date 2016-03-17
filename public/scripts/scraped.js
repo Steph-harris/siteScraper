@@ -24,10 +24,10 @@ $(document).ready(function(){
           // creates delete button for corresponding note
           var delNote = "<div><form method='POST' action='/deleteNote'>"
           delNote += "<button class='alert tiny button' href='#'>"
-          delNote += "Delete Note</button>"
+          delNote += "X</button>"
           delNote += "</form></div>"
 
-         $("#topNews").after(notesDisplay);
+         $("#topNews").after(delNote).after(notesDisplay);
         }
       }
 
