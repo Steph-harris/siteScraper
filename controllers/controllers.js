@@ -50,7 +50,7 @@ router.get("/", function(req, res){
 
 router.get("/scrapedData", function(req, res){
   //grab all data from Headline table
-  Headline.find({})
+  Headline.find({}).sort({_id: -1})
     .populate("notes")
     .exec(function(err, dbHeadlines){
       if(err){

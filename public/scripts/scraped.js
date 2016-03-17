@@ -38,7 +38,7 @@ $(document).ready(function(){
       addNote += '</label><label>Description'
       addNote += '<textarea name= "body" placeholder="None"></textarea>'
       addNote += '</label>'
-      addNote += "<button class='success button' href='#'>"
+      addNote += "<button class='primary button' href='#'>"
       addNote += "Add Note</button>"
       addNote += "</form></div>"
 
