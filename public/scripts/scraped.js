@@ -22,7 +22,8 @@ $(document).ready(function(){
           notesDisplay += "</span>: " + results[i].notes[j].body + "</p>"
 
           // creates delete button for corresponding note
-          var delNote = "<div><form method='POST' action='/deleteNote'>"
+          var delNote = "<div><form method='POST' action='/deleteNote/"
+          delNote += results[i].notes[j]._id + "'>"
           delNote += "<button class='alert tiny button' href='#'>"
           delNote += "X</button>"
           delNote += "</form></div>"

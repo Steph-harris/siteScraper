@@ -10,7 +10,7 @@ var db = require("../config/connection.js");
 router.use(express.static('public'));
 
 router.use(logger('dev'));
-router.use(bodyParser.urlencoded());
+router.use(bodyParser.urlencoded({extended:false}));
 
 //Require Schemas
 var Note = require('../models/note.js');
@@ -96,8 +96,17 @@ router.post("/newNote/:id", function(req, res){
   });
 });
 
-router.post("/deleteNote", function(req,res){
-  console.log(req.body);
+router.post("/deleteNote/:id", function(req,res){
+  //Find headline and add this note id
+  Note.remove({
+    _id:req.params.id
+  }, function(err){
+    if(err){
+      res.send(err);
+    } else {
+      res.redirect("/");
+    }
+  });
 });
 
 module.exports = router;
