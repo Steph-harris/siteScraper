@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var logger = require("morgan");
 
 //get css,js, or images from files in public folder
-// app.use(express.static('public'));
+router.use(express.static('public'));
 
 router.use(logger('dev'));
 router.use(bodyParser.urlencoded());
