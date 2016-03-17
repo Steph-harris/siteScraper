@@ -3,25 +3,14 @@ var router = express.Router();
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
-var mongoose = require('mongoose');
 var logger = require("morgan");
+var db = require("../config/connection.js");
 
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
 
 router.use(logger('dev'));
 router.use(bodyParser.urlencoded());
-
-//database configuration
-mongoose.connect('mongodb://localhost/scraped');
-var db = mongoose.connection;
-
-db.on('error', function(err) {
-  console.log('Mongoose Error: ', err);
-});
-db.once('open', function() {
-  console.log('Mongoose connection successful.');
-});
 
 //Require Schemas
 var Note = require('../models/note.js');
@@ -112,4 +101,3 @@ router.post("/deleteNote", function(req,res){
 });
 
 module.exports = router;
-
