@@ -2,8 +2,8 @@ $(document).ready(function(){
 
   $.getJSON("/scrapedData", function(results){
     $("topNews").empty();
-
-    for(var i = 0; i< 5; i++){
+    //loop starts adding headlines from newest entry
+    for(var i = 4; i< 5; i--){
       //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
@@ -48,8 +48,8 @@ $(document).ready(function(){
       $("#topNews").after(addNote).after(newLink);
     }
   });
-
-  $("#dataGet").on("click", function(e){
-  e.preventDefault();
-  });
+  //Use this button to do something
+  // $("#dataGet").on("click", function(e){
+  // e.preventDefault();
+  // });
 });

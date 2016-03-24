@@ -49,7 +49,7 @@ router.get("/", function(req, res){
 });
 
 router.get("/scrapedData", function(req, res){
-  //grab all data from Headline table
+  //grab all data from Headline table starting from bottom
   Headline.find({}).sort({_id: -1})
     .populate("notes")
     .exec(function(err, dbHeadlines){
@@ -61,7 +61,7 @@ router.get("/scrapedData", function(req, res){
     });
 });
 
-// app.get("/scrapedData", function(req, res){
+// router.get("/scrapedData", function(req, res){
 //   //grab all data from Headline table
 //   Headline.find({}, function(err, headlines){
 //     if(err){
