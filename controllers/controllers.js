@@ -61,20 +61,6 @@ router.get("/scrapedData", function(req, res){
     });
 });
 
-// router.get("/scrapedData", function(req, res){
-//   //grab all data from Headline table
-//   Headline.find({}, function(err, headlines){
-//     if(err){
-//       throw (err);
-//     } else {
-//       // res.render("home", {headlines});
-
-//       console.log(headlines);
-//       res.json(headlines);
-//     }
-//   });
-// });
-
 router.post("/newNote/:id", function(req, res){
   var newNote = new Note(req.body);
 

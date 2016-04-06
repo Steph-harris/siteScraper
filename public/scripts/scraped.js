@@ -43,13 +43,7 @@ $(document).ready(function(){
       addNote += "Add Note</button>"
       addNote += "</form></div>"
 
-      // "<button class="alert hollow button" href="#">Alert Color</button>"
-      // $("newLink");
       $("#topNews").after(addNote).after(newLink);
     }
   });
-  //Use this button to do something
-  // $("#dataGet").on("click", function(e){
-  // e.preventDefault();
-  // });
 });
