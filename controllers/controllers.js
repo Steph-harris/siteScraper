@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
 var logger = require("morgan");
+var db = require("../config/connection.js");
 
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
