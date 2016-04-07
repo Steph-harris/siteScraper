@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+  //transfer this to handlebars in the future
   $.getJSON("/scrapedData", function(results){
     $("topNews").empty();
     //loop starts adding headlines from newest entry
@@ -19,7 +19,7 @@ $(document).ready(function(){
           //build div w/ notes
           var notesDisplay = "<p><span>"
           notesDisplay += results[i].notes[j].title.toUpperCase()
-          notesDisplay += "</span>: " + results[i].notes[j].body + "</p>"
+          notesDisplay += ":</span> " + results[i].notes[j].body + "</p>"
 
           // creates delete button for corresponding note
           var delNote = "<div><form method='POST' action='/deleteNote/"
