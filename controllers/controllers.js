@@ -52,7 +52,9 @@ gamedayHelper.miniScoreboard(new Date())
   var games = data.game;
   // Array of objects with data related to a single game
   for (var i = 0; i < games.length; i++) {
-    console.log(games[i].game_media.media.title);
+    console.log("Matchup: " + games[i].game_media.media.title);
+    console.log("Location: " + games[i].location);
+    console.log("Status: " + games[i].status);
   }
 })
 .catch( function(error) {
