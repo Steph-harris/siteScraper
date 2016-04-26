@@ -3,6 +3,7 @@ var router = express.Router();
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
+var gamedayHelper = require( 'gameday-helper' );
 var logger = require("morgan");
 var db = require("../config/connection.js");
 
@@ -16,6 +17,7 @@ router.use(bodyParser.urlencoded({extended:false}));
 var Note = require('../models/note.js');
 var Headline = require('../models/headline.js');
 
+//Get articles from MLB.com and save them in Mongo
 request('http://www.mlb.com/home', function (error, response, body) {
   if (!error && response.statusCode == 200) {
     $ = cheerio.load(body);
@@ -28,8 +30,8 @@ request('http://www.mlb.com/home', function (error, response, body) {
         headLink: headLink
       });
 
-      console.log(headline);
-      console.log(headLink);
+      // console.log(headline);
+      // console.log(headLink);
 
       if(headline && headLink){
         newHeadline.save(function(err, saved){
@@ -42,6 +44,19 @@ request('http://www.mlb.com/home', function (error, response, body) {
       }
     });
   }
+});
+
+//Get game data from mlb.com
+gamedayHelper.miniScoreboard(new Date())
+.then(function(data){
+  var games = data.game;
+  // Array of objects with data related to a single game
+  for (var i = 0; i < games.length; i++) {
+    console.log(games[i].game_media.media.title);
+  }
+})
+.catch( function(error) {
+  console.log(error);
 });
 
 router.get("/", function(req, res){
