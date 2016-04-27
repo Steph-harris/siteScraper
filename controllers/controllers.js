@@ -47,25 +47,6 @@ request('http://www.mlb.com/home', function (error, response, body) {
 });
 
 //Get game data from mlb.com
-// gamedayHelper.miniScoreboard(new Date())
-// .then(function(data){
-//   var games = data.game;
-//   // Array of objects with data related to a single game
-//   for (var i = 0; i < games.length; i++) {
-//     console.log("Matchup: " + games[i].game_media.media.title);
-//     console.log("Location: " + games[i].location);
-//     console.log("Status: " + games[i].status);
-//   }
-// })
-// .catch( function(error) {
-//   console.log(error);
-// });
-
-// router.get("/", function(req, res){
-//   res.render("home");
-// });
-
-//NEW STUFF
 router.get("/", function(req, res){
   gamedayHelper.miniScoreboard(new Date())
   .then(function(data){

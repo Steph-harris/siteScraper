@@ -3,7 +3,7 @@ $(document).ready(function(){
   $.getJSON("/scrapedData", function(results){
     $("topNews").empty();
     //loop starts adding headlines from newest entry
-    for(var i = 4; i< 5; i--){
+    for(var i = 9; i< 10; i--){
       //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
