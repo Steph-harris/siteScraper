@@ -33,10 +33,14 @@ h1, p {
 }
 
 .status-tab {
-  font-weight: bold;
   background-color: #F7742C;
+  padding: 5px 5px 0;
 }
 
+.status-tab h6 {
+  font-weight: bold;
+  display: inline-block;
+}
 .game-head {
   text-align: center;
   background: white;
@@ -51,8 +55,12 @@ h1, p {
   text-transform: uppercase;
 }
 
-.game-title, .score-bold {
+.game-title, .score-bold, .game-pitchers {
   padding-left: 5px;
+}
+
+.preview-line {
+  text-align: center;
 }
 
 @media (max-width:639px) {
