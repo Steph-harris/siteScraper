@@ -7,7 +7,7 @@ var gamedayHelper = require( 'gameday-helper' );
 var nba = require('nba');
 var logger = require("morgan");
 var db = require("../config/connection.js");
-var HDate = new Date();
+require("dotenv").config();
 
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
@@ -134,6 +134,38 @@ router.get("/scrapedData", function(req, res){
         res.send(dbHeadlines);
       }
     });
+});
+
+router.get("/foursquare/:place/:city", function(req, res){
+  var place = req.params.place;
+  var city = req.params.city;
+  var version = "20170513";
+  var secret = process.env.CLIENT_SECRET;
+  var client = process.env.CLIENT_ID;
+  var strp = secret.replace("nodemon","");
+
+  var FourSRURL = "https://api.foursquare.com/v2/venues/search?intent=global&query="
+    FourSRURL += place+"&limit=1&client_secret="+ strp
+    FourSRURL += "&client_id="+client+"&v="+version;
+
+    console.log(FourSRURL);
+    console.log(client);
+    console.log(secret);
+    console.log(strp);
+    console.log("received:" + place+", "+ city);
+
+  request(FourSRURL,
+    function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        console.log(body); // Show the HTML for the Google homepage.
+        // res.render("hoops", body);
+      } else {
+        console.log("Error occurred:" + error);
+      }
+  });
+
+
+  res.send("passed to Node");
 });
 
 router.post("/newNote/:id", function(req, res){
