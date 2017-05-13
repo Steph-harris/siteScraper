@@ -82,7 +82,8 @@ router.get("/", function(req, res){
 
     //MODIFY JSON TO USE W/ HANDLEBARS
     for(var i=0; i<games.length; i++){
-      if(data.game[i].status == "Preview"){
+      var status = data.game[i].status;
+      if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
         data.game[i].showTimeDisplay = true;
       }
 
@@ -148,24 +149,17 @@ router.get("/foursquare/:place/:city", function(req, res){
     FourSRURL += place+"&limit=1&client_secret="+ strp
     FourSRURL += "&client_id="+client+"&v="+version;
 
-    console.log(FourSRURL);
-    console.log(client);
-    console.log(secret);
-    console.log(strp);
-    console.log("received:" + place+", "+ city);
+    // console.log(FourSRURL);
+    // console.log("received:" + place+", "+ city);
 
   request(FourSRURL,
     function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        console.log(body); // Show the HTML for the Google homepage.
-        // res.render("hoops", body);
+        console.log(body);
       } else {
         console.log("Error occurred:" + error);
       }
   });
-
-
-  res.send("passed to Node");
 });
 
 router.post("/newNote/:id", function(req, res){
