@@ -15,24 +15,36 @@
   </div>
   <div class="medium-3 columns game-div">
     <h3 class="game-head">Today's Games</h3>
-    {{#each games}}
-      <div class="game-boxes">
-        <div class="status-tab">
-          <h6>{{time}} {{tz_aw_lg_gen}}</h6>
-          <h6 class="float-right">{{status}}</h6>
+    {{#if games}}
+      {{#each games}}
+        <div class="game-boxes">
+          <div class="status-tab">
+            <h6>{{time}} {{tz_aw_lg_gen}}</h6>
+            <h6 class="float-right">{{status}}</h6>
+          </div>
+          <h5 class="game-title">{{away_name_abbrev}}({{away_win}}-{{away_loss}})
+          @ {{home_name_abbrev}}({{home_win}}-{{home_loss}})</h5>
+          {{#if away_probable_pitcher.last_name}}
+            <h4 class="game-pitchers">{{away_probable_pitcher.last_name}} vs. {{home_probable_pitcher.last_name}}</h4>
+            <a href="http://mlb.mlb.com{{preview_link}}">Preview Matchup</a>
+            {{else}}
+            <h4 class="score-bold">{{away_team_name}} {{away_team_runs}} <br> {{home_team_name}} {{home_team_runs}}</h4>
+            <p>Inning: {{inning}}, Outs: {{outs}}</p>
+          {{/if}}
         </div>
-        <h5 class="game-title">{{away_name_abbrev}}({{away_win}}-{{away_loss}})
-        @ {{home_name_abbrev}}({{home_win}}-{{home_loss}})</h5>
-        {{#if away_probable_pitcher.last_name}}
-          <h4 class="game-pitchers">{{away_probable_pitcher.last_name}} vs. {{home_probable_pitcher.last_name}}</h4>
-          <a href="http://mlb.mlb.com{{preview_link}}">Preview Matchup</a>
-          {{else}}
-          <h4 class="score-bold">{{away_team_name}} {{away_team_runs}} <br> {{home_team_name}} {{home_team_runs}}</h4>
-          <p>Inning: {{inning}}, Outs: {{outs}}</p>
-        {{/if}}
-      </div>
-    {{/each}}
+      {{/each}}
+    {{else}}
+       <div class="game-boxes">
+         <div class="game-head">
+            <h4 class="game-head">No MLB Games Scheduled</h4>
+          </div>
+       </div>
+    {{/if}}
   </div>
 </div>
+
+  <div class ="row">
+    <p>Not that into baseball? Try <a href="/alt">this page</a> instead!</p>
+  </div>
 
 

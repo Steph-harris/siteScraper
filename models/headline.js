@@ -9,6 +9,9 @@ var HeadlineSchema = new Schema({
   headLink: {
     type: String
   },
+  headDate:{
+    type: Date
+  },
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note'}]
 });
 

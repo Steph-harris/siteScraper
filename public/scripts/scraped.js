@@ -1,9 +1,14 @@
 $(document).ready(function(){
   //transfer this to handlebars in the future
+  $.getJSON("/scrapedNBA", function(results){
+    console.log(results);
+  });
+
   $.getJSON("/scrapedData", function(results){
     $("topNews").empty();
     //loop starts adding headlines from newest entry
     for(var i = 9; i< 10; i--){
+      console.log(results[i].headDate);
       //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
