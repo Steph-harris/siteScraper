@@ -17,9 +17,27 @@
     <h3 class="game-head">Today's Games</h3>
     {{#if games}}
       {{#each games}}
-        <div class="game-boxes">
+      <div style="display:none">
+        {{#each game_media.media}}
+          Key: {{@key}} Value = {{this}}
+        {{/each}}
+      </div>
+        <div class="game-boxes" data-venue='{{venue}}' data-city='{{location}}'>
           <div class="status-tab">
-            <h6>{{time}} {{tz_aw_lg_gen}}</h6>
+            {{#if inProgress}}
+              {{#if topHalf}}
+                <h6>Top {{inning}}</h6>
+                {{else}}
+                <h6>Bottom {{inning}}</h6>
+              {{/if}}
+            {{else}}
+              {{#if showTimeDisplay}}
+                <h6>{{time}} {{tz_aw_lg_gen}}</h6>
+                {{else}}
+                <h6></h6>
+              {{/if}}
+            {{/if}}
+
             <h6 class="float-right">{{status}}</h6>
           </div>
           <h5 class="game-title">{{away_name_abbrev}}({{away_win}}-{{away_loss}})
@@ -29,7 +47,11 @@
             <a href="http://mlb.mlb.com{{preview_link}}">Preview Matchup</a>
             {{else}}
             <h4 class="score-bold">{{away_team_name}} {{away_team_runs}} <br> {{home_team_name}} {{home_team_runs}}</h4>
-            <p>Inning: {{inning}}, Outs: {{outs}}</p>
+            {{#if inProgress}}
+              <p>Outs: {{outs}}
+                <a href="https://www.mlb.com/r/game?gid={{gameday_link}}"><i class="fa fa-headphones" aria-hidden="true"></i></a>
+            {{/if}}
+            </p>
           {{/if}}
         </div>
       {{/each}}
@@ -43,8 +65,6 @@
   </div>
 </div>
 
-  <div class ="row">
-    <p>Not that into baseball? Try <a href="/alt">this page</a> instead!</p>
-  </div>
-
-
+<div class ="row">
+  <p>Not that into baseball? Try <a href="/alt">this page</a> instead!</p>
+</div>

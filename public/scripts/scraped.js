@@ -5,10 +5,10 @@ $(document).ready(function(){
   });
 
   $.getJSON("/scrapedData", function(results){
+    var dataLn = results.length;
     $("topNews").empty();
     //loop starts adding headlines from newest entry
-    for(var i = 9; i< 10; i--){
-      console.log(results[i].headDate);
+    for(var i = dataLn-1; i>0; i--){
       //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
@@ -18,9 +18,11 @@ $(document).ready(function(){
 
       //displays notes associated w/ headline
       if(results[i].notes.length >= 1){
-        for(var j=0; j<results[i].notes.length; j++){
-          console.log(results[i].notes[j].title);
-          console.log(results[i].notes[j].body);
+        var rsltLn = results[i].notes.length;
+
+        for(var j=0; j<rsltLn; j++){
+          // console.log(results[i].notes[j].title);
+          // console.log(results[i].notes[j].body);
           //build div w/ notes
           var notesDisplay = "<p><span>"
           notesDisplay += results[i].notes[j].title.toUpperCase()

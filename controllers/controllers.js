@@ -35,10 +35,6 @@ request('http://www.mlb.com/home', function (error, response, body) {
         headDate: headDate
       });
 
-      console.log(headline);
-      console.log(headLink);
-      console.log(headDate);
-
       if(headline && headLink && headDate){
         newHeadline.save(function(err, saved){
           if(err){
@@ -80,12 +76,38 @@ router.get("/scrapedNBA", function(req, res){
 router.get("/", function(req, res){
   gamedayHelper.miniScoreboard(new Date())
   .then(function(data){
-  var games = data.game;
+    // console.log(data);
+    var games = data.game;
+    var inP = 0;
 
-  // console.log(games);
-  res.render("home", {
-    games: games
-  })
+    //MODIFY JSON TO USE W/ HANDLEBARS
+    for(var i=0; i<games.length; i++){
+      if(data.game[i].status == "Preview"){
+        data.game[i].showTimeDisplay = true;
+      }
+
+      if(data.game[i].status == "In Progress"){
+        data.game[i].inProgress = true;
+        inP++;
+        //only show info for in status games
+        console.log(data.game[i]);
+      }
+
+      if(data.game[i].status == "Final"){
+        console.log(data.game[i]);
+      }
+
+      if(data.game[i].top_inning == "Y"){
+        data.game[i].topHalf = true;
+      }
+    }
+
+    console.log(inP + " games are in progress");
+
+    // console.log(games);
+    res.render("home", {
+      games: games
+    })
   })
   .catch( function(error) {
   console.log(error);
@@ -103,7 +125,7 @@ router.get("/alt", function(req, res){
 
 router.get("/scrapedData", function(req, res){
   //grab all data from Headline table starting from bottom
-  Headline.find({}).sort({headDate: -1})
+  Headline.find({}).sort({headDate: -1}).limit(10)
     .populate("notes")
     .exec(function(err, dbHeadlines){
       if(err){
