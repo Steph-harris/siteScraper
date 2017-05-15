@@ -8,6 +8,10 @@ var nba = require('nba');
 var logger = require("morgan");
 var db = require("../config/connection.js");
 require("dotenv").config();
+var version = "20170513";
+var secret = process.env.CLIENT_SECRET;
+var strp = secret.replace("nodemon","");
+var client = process.env.CLIENT_ID;
 
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
@@ -76,7 +80,7 @@ router.get("/scrapedNBA", function(req, res){
 router.get("/", function(req, res){
   gamedayHelper.miniScoreboard(new Date())
   .then(function(data){
-    // console.log(data);
+    console.log(data);
     var games = data.game;
     var inP = 0;
 
@@ -140,10 +144,6 @@ router.get("/scrapedData", function(req, res){
 router.get("/foursquare/:place/:city", function(req, res){
   var place = req.params.place;
   var city = req.params.city;
-  var version = "20170513";
-  var secret = process.env.CLIENT_SECRET;
-  var client = process.env.CLIENT_ID;
-  var strp = secret.replace("nodemon","");
 
   var FourSRURL = "https://api.foursquare.com/v2/venues/search?intent=global&query="
     FourSRURL += place+"&limit=1&client_secret="+ strp
@@ -154,13 +154,54 @@ router.get("/foursquare/:place/:city", function(req, res){
 
   request(FourSRURL,
     function (error, response, body) {
+      var bodyPrs = JSON.parse(body);
+      var picArray;
+
       if (!error && response.statusCode == 200) {
-        console.log(body);
+        var venueID = bodyPrs["response"]["venues"][0]["id"];
+
+        console.log(bodyPrs);
+        // console.log("id is " + venueID);
+        debugger
+        picArray = getVenuePhotos(venueID);
+
+        console.log("photos: "+ picArray);
       } else {
         console.log("Error occurred:" + error);
       }
   });
 });
+
+function getVenuePhotos(venueID){
+  var new4sqURL = "https://api.foursquare.com/v2/venues/"+venueID+"/photos"
+      new4sqURL += "?limit=5&client_secret="+ strp+"&client_id="+client+"&v="+version;
+
+  request(new4sqURL,
+    function (error, response, body) {
+      var bodyPrs = JSON.parse(body);
+      var bodyPrsln = bodyPrs["response"]["photos"]["items"].length;
+      var picsArray = [];
+
+      if (!error && response.statusCode == 200) {
+        // console.log("Pics will be inside: " +bodyPrs);
+
+        //assembling photo links for venue
+        for(var i=0; i<bodyPrsln; i++){
+          var picLinkA = bodyPrs["response"]["photos"]["items"][i]["prefix"];
+          var size = "original";
+          var picLinkB = bodyPrs["response"]["photos"]["items"][i]["suffix"];
+
+          picsArray.push(picLinkA+size+picLinkB);
+        }
+
+        //send back array of pic links
+        console.log(picsArray);
+        return picsArray;
+      } else {
+        console.log("Error occurred:" + error);
+      }
+  });
+}
 
 router.post("/newNote/:id", function(req, res){
   var newNote = new Note(req.body);
