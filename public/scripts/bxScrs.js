@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+  $(document).foundation();
   $(document).on("click", ".game-boxes", function(){
     var place = $(this).attr("data-venue").replace(" ", "");
     var city = $(this).attr("data-city");
@@ -8,6 +8,8 @@ $(document).ready(function(){
     $.getJSON("/foursquare/"+place+"/"+city, function(results){
       $.each(results, function(i){
         console.log(results[i]);
+
+        $('#venueModal').foundation('open');
       })
     });
   });
@@ -24,4 +26,4 @@ $(document).ready(function(){
 });
 //SET PHOTO BACKGROUND BASED ON CLICKED VENUE
 //CHANGE BOX COLORS BASED ON HOME TEAM OF CLICKED VENUE (AWAY TEAM IF CLICKED 2X)
-//MODAL POPUP WITH VENUE INFO
+//MODAL POPUP WITH VENUE INFO (stadium pic as background)
