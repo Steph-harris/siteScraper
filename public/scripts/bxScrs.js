@@ -6,7 +6,9 @@ $(document).ready(function(){
 
     //send these 3 vars to Node as a req
     $.getJSON("/foursquare/"+place+"/"+city, function(results){
-      console.log(results);
+      $.each(results, function(i){
+        console.log(results[i]);
+      })
     });
   });
 
@@ -20,3 +22,6 @@ $(document).ready(function(){
     $(this).children(".status-tab").css("background-color","#F7742C");
   });
 });
+//SET PHOTO BACKGROUND BASED ON CLICKED VENUE
+//CHANGE BOX COLORS BASED ON HOME TEAM OF CLICKED VENUE (AWAY TEAM IF CLICKED 2X)
+//MODAL POPUP WITH VENUE INFO

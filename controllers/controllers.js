@@ -160,19 +160,20 @@ router.get("/foursquare/:place/:city", function(req, res){
       if (!error && response.statusCode == 200) {
         var venueID = bodyPrs["response"]["venues"][0]["id"];
 
-        console.log(bodyPrs);
+        // console.log(bodyPrs);
         // console.log("id is " + venueID);
-        debugger
-        picArray = getVenuePhotos(venueID);
 
-        console.log("photos: "+ picArray);
+        picArray = getVenuePhotos(venueID, function(results){
+          console.log("photos: "+ results);
+          res.send(results);
+        });
       } else {
         console.log("Error occurred:" + error);
       }
   });
 });
 
-function getVenuePhotos(venueID){
+function getVenuePhotos(venueID, callback){
   var new4sqURL = "https://api.foursquare.com/v2/venues/"+venueID+"/photos"
       new4sqURL += "?limit=5&client_secret="+ strp+"&client_id="+client+"&v="+version;
 
@@ -196,7 +197,7 @@ function getVenuePhotos(venueID){
 
         //send back array of pic links
         console.log(picsArray);
-        return picsArray;
+        callback(picsArray);
       } else {
         console.log("Error occurred:" + error);
       }
