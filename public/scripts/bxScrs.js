@@ -1,16 +1,23 @@
 $(document).ready(function(){
+  var picObj;
+
   $(document).foundation();
   $(document).on("click", ".game-boxes", function(){
+    var placeOG = $(this).attr("data-venue");
     var place = $(this).attr("data-venue").replace(" ", "");
     var city = $(this).attr("data-city");
 
     //send these 3 vars to Node as a req
     $.getJSON("/foursquare/"+place+"/"+city, function(results){
-      $.each(results, function(i){
-        console.log(results[i]);
+      picObj = [];
 
-        $('#venueModal').foundation('open');
-      })
+      $.each(results, function(i){
+        picObj.push(results[i]);
+      });
+
+      $('#modalTitle').text(placeOG);
+      $('#modCity').text(city);
+      $('#venueModal').foundation('open');
     });
   });
 
@@ -22,6 +29,11 @@ $(document).ready(function(){
     $(this).attr("title", "");
     $(this).css("background-color","white");
     $(this).children(".status-tab").css("background-color","#F7742C");
+  });
+
+  $(document).on("closeme.zf.reveal", function(){
+    //set pic as background
+    $('#venueModal').css("background-image", "url("+picObj[0]+")");
   });
 });
 //SET PHOTO BACKGROUND BASED ON CLICKED VENUE

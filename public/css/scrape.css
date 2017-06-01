@@ -69,3 +69,7 @@ h1, p {
   margin-bottom: 10px;
   }
 }
+
+#venueModal{
+  height: 450px;
+}
