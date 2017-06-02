@@ -15,6 +15,7 @@ $(document).ready(function(){
       var venAddr = venDt.location.address;
       var venPO = venDt.location.postalCode;
       var phone = venDt.contact.formattedPhone;
+      var unforPhone = venDt.contact.phone;
 
 console.log(venDt);
 console.log(picDt);
@@ -22,7 +23,7 @@ console.log(picDt);
       $('#venLink').attr("href", venURL).text(placeOG);
       $('#modAddress').text(venAddr);
       $('#modCity').text(city + " "+ venPO);
-      $('#modPhone').text(phone);
+      $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
       $('#venueModal').foundation('open');
     });
   });
