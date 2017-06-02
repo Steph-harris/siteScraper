@@ -6,7 +6,7 @@ body {
   background-color: #F7EEE6;
 }
 
-h1, p {
+h1, h2, p {
   text-align: center;
 }
 
@@ -48,6 +48,10 @@ h1, p {
 
 .game-boxes {
   background-color: rgba(255,255,255,.9);
+}
+
+.game-div {
+  padding-right: 0;
 }
 
 .score-bold {
