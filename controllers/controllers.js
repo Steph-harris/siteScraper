@@ -149,7 +149,7 @@ router.get("/foursquare/:place/:city", function(req, res){
     FourSRURL += place+"&limit=1&client_secret="+ strp
     FourSRURL += "&client_id="+client+"&v="+version;
 
-    // console.log(FourSRURL);
+    console.log(FourSRURL);
     // console.log("received:" + place+", "+ city);
 
   request(FourSRURL,
@@ -160,11 +160,11 @@ router.get("/foursquare/:place/:city", function(req, res){
       if (!error && response.statusCode == 200) {
         var venueID = bodyPrs["response"]["venues"][0]["id"];
 
-        // console.log(bodyPrs);
+        // console.log("response - "+bodyPrs["response"]["venues"]);
         // console.log("id is " + venueID);
 
         picArray = getVenuePhotos(venueID, function(results){
-          console.log("photos: "+ results);
+          // console.log("photos: "+ results);
           res.send(results);
         });
       } else {
@@ -196,7 +196,7 @@ function getVenuePhotos(venueID, callback){
         }
 
         //send back array of pic links
-        console.log(picsArray);
+        // console.log(picsArray);
         callback(picsArray);
       } else {
         console.log("Error occurred:" + error);
