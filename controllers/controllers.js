@@ -155,17 +155,21 @@ router.get("/foursquare/:place/:city", function(req, res){
   request(FourSRURL,
     function (error, response, body) {
       var bodyPrs = JSON.parse(body);
+      var venueData = [];
       var picArray;
+
+      venueData.push(bodyPrs["response"]["venues"]);
 
       if (!error && response.statusCode == 200) {
         var venueID = bodyPrs["response"]["venues"][0]["id"];
 
-        // console.log("response - "+bodyPrs["response"]["venues"]);
+        // console.log("response - "+body);
         // console.log("id is " + venueID);
 
         picArray = getVenuePhotos(venueID, function(results){
           // console.log("photos: "+ results);
-          res.send(results);
+          venueData.push(results);
+          res.send(venueData);
         });
       } else {
         console.log("Error occurred:" + error);
