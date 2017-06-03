@@ -10,10 +10,16 @@ h1, h2, p {
   text-align: center;
 }
 
+.columns {
+  padding-bottom: 20px;
+}
+
 .main-stories {
   background-color: rgba(255,255,255,.9);
   color: #F7742C;
   padding: 5%;
+  overflow: scroll;
+  padding-bottom: 15px;
 }
 
 .main-stories p a, span {
@@ -82,4 +88,9 @@ h1, h2, p {
 
 .trans{
   background-color: rgba(255, 255, 255, 0.9);
+}
+
+#gameScroll{
+  overflow: scroll;
+  padding-bottom: 15px;
 }

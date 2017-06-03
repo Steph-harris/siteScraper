@@ -1,5 +1,11 @@
 $(document).ready(function(){
   var picObj, venDt, picDt, picLn, randNum;
+  var mainHgt = screen.height;
+  var artHgt = mainHgt;
+  var gmHgt = artHgt -50;
+
+  $("#articleDiv").css("height", artHgt);
+  $("#gameScroll").css("height", gmHgt);
 
   $.getJSON("/", function(response){
     console.log(response);
