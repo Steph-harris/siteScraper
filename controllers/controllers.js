@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 var express = require("express");
 var router = express.Router();
 var bodyParser = require("body-parser");
@@ -7,7 +9,6 @@ var gamedayHelper = require( 'gameday-helper' );
 var nba = require('nba');
 var logger = require("morgan");
 var db = require("../config/connection.js");
-require("dotenv").config();
 var version = "20170513";
 var secret = process.env.CLIENT_SECRET;
 var strp = secret.replace("nodemon","");
@@ -78,6 +79,7 @@ router.get("/scrapedNBA", function(req, res){
 
 //Get game data from mlb.com
 router.get("/", function(req, res){
+  //look inside req object for caller
   gamedayHelper.miniScoreboard(new Date())
   .then(function(data){
     console.log(data);

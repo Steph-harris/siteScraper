@@ -1,5 +1,9 @@
 $(document).ready(function(){
-  var picObj, venDt, picDt;
+  var picObj, venDt, picDt, picLn, randNum;
+
+  $.getJSON("/", function(response){
+    console.log(response);
+  });
 
   $(document).foundation();
   $(document).on("click", ".game-boxes", function(){
@@ -16,6 +20,7 @@ $(document).ready(function(){
       var venPO = venDt.location.postalCode;
       var phone = venDt.contact.formattedPhone;
       var unforPhone = venDt.contact.phone;
+      picLn = picDt.length;
 
 console.log(venDt);
 console.log(picDt);
@@ -39,8 +44,10 @@ console.log(picDt);
   });
 
   $(document).on("closeme.zf.reveal", function(){
+    randNum = Math.floor(Math.random() * picLn);
+
     //set pic as background
-    $('#venueModal').css("background-image", "url("+picDt[0]+")");
+    $('#venueModal').css("background-image", "url("+picDt[randNum]+")");
   });
 });
 //SET PHOTO BACKGROUND BASED ON CLICKED VENUE

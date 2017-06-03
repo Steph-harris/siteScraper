@@ -75,6 +75,8 @@ h1, h2, p {
 }
 
 #venueModal{
+  background-size: cover;
+  background-repeat: no-repeat;
   height: 450px;
 }
 
