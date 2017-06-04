@@ -4,8 +4,13 @@ $(document).ready(function(){
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
 
-  $("#articleDiv").css("height", artHgt);
-  $("#gameScroll").css("height", gmHgt);
+  if(artHgt>500){
+    $("#articleDiv").css("height", artHgt);
+    $("#gameScroll").css("height", gmHgt);
+  } else {
+    $("#articleDiv").css("height", 500);
+    $("#gameScroll").css("height", 500);
+  }
 
   $.getJSON("/", function(response){
     console.log(response);

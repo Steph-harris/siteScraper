@@ -75,8 +75,12 @@ h1, h2, p {
 
 @media (max-width:639px) {
   .weatherWidget {
-  position: static;
-  margin-bottom: 10px;
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  .game-div {
+    padding-right: .9375rem;
   }
 }
 
