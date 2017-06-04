@@ -79,8 +79,9 @@ h1, h2, p {
     margin-bottom: 10px;
   }
 
-  .game-div {
-    padding-right: .9375rem;
+  .columns {
+    padding-right: 4rem;
+    padding-left: 4rem;
   }
 }
 

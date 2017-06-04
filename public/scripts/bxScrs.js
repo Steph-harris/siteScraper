@@ -8,8 +8,8 @@ $(document).ready(function(){
     $("#articleDiv").css("height", artHgt);
     $("#gameScroll").css("height", gmHgt);
   } else {
-    $("#articleDiv").css("height", 500);
-    $("#gameScroll").css("height", 500);
+    $("#articleDiv").css("height", 400);
+    $("#gameScroll").css("height", 400);
   }
 
   $.getJSON("/", function(response){
