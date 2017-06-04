@@ -42,6 +42,10 @@ h1, h2, p {
   position: absolute;
 }
 
+#wuWidget, #wuTitle {
+  padding-left: 33%;
+}
+
 .status-tab {
   background-color: #F7742C;
   padding: 5px 5px 0;

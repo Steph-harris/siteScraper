@@ -1,16 +1,17 @@
 <h1>Welcome to the Site Scraper!</h1>
 <p>Can you tell what other site is powering this one???</p>
 
-<div class="weatherWidget">
-  <h5>Click for Weather</h5>
-  <a href='http://www.wunderground.com/sports/MLB/team/New_York:Mets.html?bannertypeclick=sports_baseball_cond'><img src='http://weathersticker.wunderground.com/cgi-bin/banner/ban/wxBanner?teamtype=MLB&team=New_York:Mets&bannertype=sports_baseball_cond' border='0' alt='Click for full game report!' /></a>
+<div class="weatherWidget medium-3" title="Click for Weather">
+  <h5 id="wuTitle">Click for Weather</h5>
+  <a href='http://www.wunderground.com/sports/MLB/team/New_York:Mets.html?bannertypeclick=sports_baseball_cond'><img src='http://weathersticker.wunderground.com/cgi-bin/banner/ban/wxBanner?teamtype=MLB&team=New_York:Mets&bannertype=sports_baseball_cond' border='0' id="wuWidget" alt='Click for full game report!' /></a>
 </div>
 
 <div class="row">
   <div class="medium-offset-3 medium-6 columns">
     <div id="articleDiv" class="main-stories">
       <h2 id="topNews">Headlines</h2>
-
+      <div id="articleScroll">
+      </div>
     </div>
   </div>
   <div class="medium-3 columns game-div">
