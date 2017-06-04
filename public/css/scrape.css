@@ -73,18 +73,6 @@ h1, h2, p {
   text-align: center;
 }
 
-@media (max-width:639px) {
-  .weatherWidget {
-    position: static;
-    margin-bottom: 10px;
-  }
-
-  .columns {
-    padding-right: 4rem;
-    padding-left: 4rem;
-  }
-}
-
 #venueModal{
   background-size: cover;
   background-repeat: no-repeat;
@@ -98,4 +86,18 @@ h1, h2, p {
 #gameScroll{
   overflow: scroll;
   padding-bottom: 15px;
+}
+
+@media (max-width:639px) {
+  .weatherWidget {
+    position: static;
+    margin-bottom: 10px;
+  }
+
+  @media screen and (max-height: 630px){
+    .columns {
+      padding-right: 4rem;
+      padding-left: 4rem;
+    }
+  }
 }
