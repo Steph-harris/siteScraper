@@ -143,21 +143,32 @@ router.get("/scrapedData", function(req, res){
     });
 });
 
-router.get("/foursquare/:place/:city", function(req, res){
+router.get("/foursquare/:place/:city/:gameID", function(req, res){
+  var venueData = [];
   var place = req.params.place;
   var city = req.params.city;
-
+  var gameDt = req.params.gameID;
+  var gDt = `gid_${gameDt.slice(0,4)}_${gameDt.slice(4,6)}_${gameDt.slice(6,8)}_`
+      gDt += `${gameDt.slice(8,14)}_${gameDt.slice(14,20)}_${gameDt.slice(20,21)}`;
   var FourSRURL = "https://api.foursquare.com/v2/venues/search?intent=global&query="
     FourSRURL += place+"&limit=1&client_secret="+ strp
     FourSRURL += "&client_id="+client+"&v="+version;
 
-    console.log(FourSRURL);
-    // console.log("received:" + place+", "+ city);
+    console.log(`Game id is ${gDt}`);
 
-  request(FourSRURL,
+  var getGameDT = gamedayHelper.linescore(gDt)
+  .then(function(data){
+    // console.log(data);
+    venueData.push({"scores": data});
+    return data;
+  })
+  .catch( function(error) {
+  console.log(error);
+  });
+
+  var getGamePics = request(FourSRURL,
     function (error, response, body) {
       var bodyPrs = JSON.parse(body);
-      var venueData = [];
       var picArray;
 
       venueData.push(bodyPrs["response"]["venues"]);
@@ -170,13 +181,23 @@ router.get("/foursquare/:place/:city", function(req, res){
 
         picArray = getVenuePhotos(venueID, function(results){
           // console.log("photos: "+ results);
-          venueData.push(results);
-          res.send(venueData);
+          venueData.push({photos:results});
+          return results;
+          // res.send(venueData);
         });
       } else {
         console.log("Error occurred:" + error);
       }
   });
+
+  var gData = getGameDT();
+  var pData = getGamePics();
+
+  $.when(gData, pData)
+  .then(
+    console.log(venueData);
+    res.send(venueData);
+  );
 });
 
 function getVenuePhotos(venueID, callback){
