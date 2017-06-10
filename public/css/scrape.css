@@ -6,7 +6,7 @@ body {
   background-color: #F7EEE6;
 }
 
-h1, h2, p {
+h1, h3, p, #disclaimer {
   text-align: center;
 }
 
