@@ -156,17 +156,22 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
 
     console.log(`Game id is ${gDt}`);
 
-  var getGameDT = gamedayHelper.linescore(gDt)
+  gamedayHelper.linescore(gDt)
   .then(function(data){
     // console.log(data);
-    venueData.push({"scores": data});
-    return data;
+    var dt = JSON.parse(data);
+    venueData.push({"scores": dt});
+
+    if(venueData.length == 3){
+      console.log("venue: "+venueData);
+      res.send(venueData);
+    }
   })
   .catch( function(error) {
   console.log(error);
   });
 
-  var getGamePics = request(FourSRURL,
+  request(FourSRURL,
     function (error, response, body) {
       var bodyPrs = JSON.parse(body);
       var picArray;
@@ -182,22 +187,17 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
         picArray = getVenuePhotos(venueID, function(results){
           // console.log("photos: "+ results);
           venueData.push({photos:results});
-          return results;
+
+          if(venueData.length == 3){
+            console.log("venue: "+venueData);
+            res.send(venueData);
+          }
           // res.send(venueData);
         });
       } else {
         console.log("Error occurred:" + error);
       }
   });
-
-  var gData = getGameDT();
-  var pData = getGamePics();
-
-  $.when(gData, pData)
-  .then(
-    console.log(venueData);
-    res.send(venueData);
-  );
 });
 
 function getVenuePhotos(venueID, callback){
