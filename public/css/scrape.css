@@ -47,6 +47,8 @@ h1, h3, p, #disclaimer {
 }
 
 .status-tab {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   background-color: #F7742C;
   padding: 5px 5px 0;
 }
@@ -61,7 +63,9 @@ h1, h3, p, #disclaimer {
 }
 
 .game-boxes {
+  border-radius: 5px;
   background-color: rgba(255,255,255,.9);
+  margin-bottom: 1rem;
 }
 
 .game-div {
