@@ -24,6 +24,34 @@ router.use(bodyParser.urlencoded({extended:false}));
 var Note = require('../models/note.js');
 var Headline = require('../models/headline.js');
 
+function getVenuePhotos(venueID, callback){
+  var new4sqURL = "https://api.foursquare.com/v2/venues/"+venueID+"/photos"
+  new4sqURL += "?limit=5&client_secret="+ strp+"&client_id="+client+"&v="+version;
+
+  request(new4sqURL,
+    function (error, response, body) {
+      var bodyPrs = JSON.parse(body);
+      var bodyPrsln = bodyPrs["response"]["photos"]["items"].length;
+      var picsArray = [];
+
+      if (!error && response.statusCode == 200) {
+        //assembling photo links for venue
+        for(var i=0; i<bodyPrsln; i++){
+          var picLinkA = bodyPrs["response"]["photos"]["items"][i]["prefix"];
+          var size = "original";
+          var picLinkB = bodyPrs["response"]["photos"]["items"][i]["suffix"];
+
+          picsArray.push(picLinkA+size+picLinkB);
+        }
+
+        //send back array of pic links
+        callback(picsArray);
+      } else {
+        console.log("Error occurred:" + error);
+      }
+  });
+}
+
 //Get articles from MLB.com and save them in Mongo
 request('http://www.mlb.com/home', function (error, response, body) {
   if (!error && response.statusCode == 200) {
@@ -162,16 +190,13 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
     var dt = JSON.parse(data);
     venueData.push({"scores": dt});
 
-    if(venueData.length == 3){
-      console.log("venue: "+venueData);
-      res.send(venueData);
-    }
+    getPhts();
   })
   .catch( function(error) {
   console.log(error);
   });
 
-  request(FourSRURL,
+  var getPhts = request(FourSRURL,
     function (error, response, body) {
       var bodyPrs = JSON.parse(body);
       var picArray;
@@ -181,55 +206,16 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
       if (!error && response.statusCode == 200) {
         var venueID = bodyPrs["response"]["venues"][0]["id"];
 
-        // console.log("response - "+body);
-        // console.log("id is " + venueID);
-
         picArray = getVenuePhotos(venueID, function(results){
-          // console.log("photos: "+ results);
           venueData.push({photos:results});
 
-          if(venueData.length == 3){
-            console.log("venue: "+venueData);
-            res.send(venueData);
-          }
-          // res.send(venueData);
+          res.send(venueData);
         });
       } else {
         console.log("Error occurred:" + error);
       }
   });
 });
-
-function getVenuePhotos(venueID, callback){
-  var new4sqURL = "https://api.foursquare.com/v2/venues/"+venueID+"/photos"
-      new4sqURL += "?limit=5&client_secret="+ strp+"&client_id="+client+"&v="+version;
-
-  request(new4sqURL,
-    function (error, response, body) {
-      var bodyPrs = JSON.parse(body);
-      var bodyPrsln = bodyPrs["response"]["photos"]["items"].length;
-      var picsArray = [];
-
-      if (!error && response.statusCode == 200) {
-        // console.log("Pics will be inside: " +bodyPrs);
-
-        //assembling photo links for venue
-        for(var i=0; i<bodyPrsln; i++){
-          var picLinkA = bodyPrs["response"]["photos"]["items"][i]["prefix"];
-          var size = "original";
-          var picLinkB = bodyPrs["response"]["photos"]["items"][i]["suffix"];
-
-          picsArray.push(picLinkA+size+picLinkB);
-        }
-
-        //send back array of pic links
-        // console.log(picsArray);
-        callback(picsArray);
-      } else {
-        console.log("Error occurred:" + error);
-      }
-  });
-}
 
 router.post("/newNote/:id", function(req, res){
   var newNote = new Note(req.body);
