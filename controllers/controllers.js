@@ -181,8 +181,29 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
   var FourSRURL = "https://api.foursquare.com/v2/venues/search?intent=global&query="
     FourSRURL += place+"&limit=1&client_secret="+ strp
     FourSRURL += "&client_id="+client+"&v="+version;
+  var getPhts = function(){
+    request(FourSRURL,
+      function (error, response, body) {
+        var bodyPrs = JSON.parse(body);
+        var picArray;
 
-    console.log(`Game id is ${gDt}`);
+        venueData.push(bodyPrs["response"]["venues"]);
+
+        if (!error && response.statusCode == 200) {
+          var venueID = bodyPrs["response"]["venues"][0]["id"];
+
+          picArray = getVenuePhotos(venueID, function(results){
+            venueData.push({photos:results});
+
+            res.send(venueData);
+          });
+        } else {
+          console.log("Error occurred:" + error);
+        }
+      })
+    };
+
+  console.log(`Game id is ${gDt}`);
 
   gamedayHelper.linescore(gDt)
   .then(function(data){
@@ -194,26 +215,6 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
   })
   .catch( function(error) {
   console.log(error);
-  });
-
-  var getPhts = request(FourSRURL,
-    function (error, response, body) {
-      var bodyPrs = JSON.parse(body);
-      var picArray;
-
-      venueData.push(bodyPrs["response"]["venues"]);
-
-      if (!error && response.statusCode == 200) {
-        var venueID = bodyPrs["response"]["venues"][0]["id"];
-
-        picArray = getVenuePhotos(venueID, function(results){
-          venueData.push({photos:results});
-
-          res.send(venueData);
-        });
-      } else {
-        console.log("Error occurred:" + error);
-      }
   });
 });
 
