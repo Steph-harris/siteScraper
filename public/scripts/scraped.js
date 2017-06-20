@@ -5,15 +5,21 @@ $(document).ready(function(){
   });
 
   $.getJSON("/scrapedData", function(results){
+    // var source   = $("#articleScroll").html();
+    // var template = Handlebars.compile(source);
+    // var context  = {articles: results};
+    // var html     = template(context);
+
     var dataLn = results.length;
-    $("topNews").empty();
+    $("#articleScroll").empty();
     //loop starts adding headlines from newest entry
     for(var i = dataLn-1; i>0; i--){
       //creates new headline paragraph link from route json
       var newLink = "<p>";
       newLink += "<a href="
       newLink += results[i].headLink
-      newLink += ">" + results[i].headline
+      newLink += " title='" + results[i].headline
+      newLink += "'>" + results[i].headline
       newLink += "</a></p>";
 
       //displays notes associated w/ headline
@@ -33,9 +39,9 @@ $(document).ready(function(){
           delNote += results[i].notes[j]._id + "'>"
           delNote += "<button class='alert tiny button' href='#'>"
           delNote += "X</button>"
-          delNote += "</form></div>"
+          delNote += "</form></div>";
 
-         $("#topNews").after(delNote).after(notesDisplay);
+         $("#articleScroll").after(delNote).after(notesDisplay);
         }
       }
 
@@ -50,7 +56,7 @@ $(document).ready(function(){
       addNote += "Add Note</button>"
       addNote += "</form></div>"
 
-      $("#topNews").after(addNote).after(newLink);
+      $("#articleScroll").after(addNote).after(newLink);
     }
   });
 });

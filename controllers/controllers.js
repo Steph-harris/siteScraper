@@ -8,6 +8,7 @@ var cheerio = require("cheerio");
 var gamedayHelper = require( 'gameday-helper' );
 var nba = require('nba');
 var logger = require("morgan");
+var async = require("async");
 var db = require("../config/connection.js");
 var version = "20170513";
 var secret = process.env.CLIENT_SECRET;
@@ -107,46 +108,101 @@ router.get("/scrapedNBA", function(req, res){
 
 //Get game data from mlb.com
 router.get("/", function(req, res){
-  //look inside req object for caller
-  gamedayHelper.miniScoreboard(new Date())
-  .then(function(data){
-    console.log(data);
-    var games = data.game;
-    var inP = 0;
+  async.parallel({
+    games: function(callback){
+      gamedayHelper.miniScoreboard(new Date())
+      .then(function(data){
+        // console.log(data);
+        var games = data.game;
+        var inP = 0;
 
-    //MODIFY JSON TO USE W/ HANDLEBARS
-    for(var i=0; i<games.length; i++){
-      var status = data.game[i].status;
-      if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
-        data.game[i].showTimeDisplay = true;
-      }
+        //MODIFY JSON TO USE W/ HANDLEBARS
+        for(var i=0; i<games.length; i++){
+          var status = data.game[i].status;
+          if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
+            data.game[i].showTimeDisplay = true;
+          }
 
-      if(data.game[i].status == "In Progress"){
-        data.game[i].inProgress = true;
-        inP++;
-        //only show info for in status games
-        console.log(data.game[i]);
-      }
+          if(data.game[i].status == "In Progress"){
+            data.game[i].inProgress = true;
+            inP++;
+            //only show info for in status games
+            console.log(data.game[i]);
+          }
 
-      if(data.game[i].status == "Final"){
-        console.log(data.game[i]);
-      }
+          if(data.game[i].status == "Final"){
+            console.log(data.game[i]);
+          }
 
-      if(data.game[i].top_inning == "Y"){
-        data.game[i].topHalf = true;
-      }
+          if(data.game[i].top_inning == "Y"){
+            data.game[i].topHalf = true;
+          }
+        }
+        console.log(inP + " games are in progress");
+
+        callback(null, games);
+      })
+
+    },
+    dbHeadlines: function(callback){
+      Headline.find({}).sort({headDate: -1}).limit(10)
+      .populate("notes")
+      .exec(function(err, dbHeadlines){
+        if(err){
+          console.log(err);
+        } else {
+          console.log(dbHeadlines);
+        }
+
+        callback(null, dbHeadlines);
+      });
     }
+  },
+    function(err, results){
+      // console.log(`the results are in: ${results}`);
+      res.render("home", {pageData: results})
+  });
+  //look inside req object for caller
+  // gamedayHelper.miniScoreboard(new Date())
+  // .then(function(data){
+  //   console.log(data);
+  //   var games = data.game;
+  //   var inP = 0;
 
-    console.log(inP + " games are in progress");
+  //   //MODIFY JSON TO USE W/ HANDLEBARS
+  //   for(var i=0; i<games.length; i++){
+  //     var status = data.game[i].status;
+  //     if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
+  //       data.game[i].showTimeDisplay = true;
+  //     }
 
-    // console.log(games);
-    res.render("home", {
-      games: games
-    })
-  })
-  .catch( function(error) {
-  console.log(error);
-  })
+  //     if(data.game[i].status == "In Progress"){
+  //       data.game[i].inProgress = true;
+  //       inP++;
+  //       //only show info for in status games
+  //       console.log(data.game[i]);
+  //     }
+
+  //     if(data.game[i].status == "Final"){
+  //       console.log(data.game[i]);
+  //     }
+
+  //     if(data.game[i].top_inning == "Y"){
+  //       data.game[i].topHalf = true;
+  //     }
+  //   }
+
+  //   console.log(inP + " games are in progress");
+
+  //   // console.log(games);
+  //   res.render("home", {
+  //     games: games
+  //     //, articles: articles
+  //   })
+  // })
+  // .catch( function(error) {
+  // console.log(error);
+  // })
 });
 
 //Get data from NBA package
@@ -161,14 +217,14 @@ router.get("/alt", function(req, res){
 router.get("/scrapedData", function(req, res){
   //grab all data from Headline table starting from bottom
   Headline.find({}).sort({headDate: -1}).limit(10)
-    .populate("notes")
-    .exec(function(err, dbHeadlines){
-      if(err){
-        res.send(err);
-      } else {
-        res.send(dbHeadlines);
-      }
-    });
+  .populate("notes")
+  .exec(function(err, dbHeadlines){
+    if(err){
+      res.send(err);
+    } else {
+      res.send(dbHeadlines);
+    }
+  });
 });
 
 router.get("/foursquare/:place/:city/:gameID", function(req, res){

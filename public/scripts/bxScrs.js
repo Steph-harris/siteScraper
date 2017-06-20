@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var picObj, venDt, picDt, picLn, randNum;
+  var picObj, venDt, lnScr, lnScrDt, picDt, picLn, randNum;
   var mainHgt = screen.height;
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
@@ -21,26 +21,27 @@ $(document).ready(function(){
     var placeOG = $(this).attr("data-venue");
     var place = $(this).attr("data-venue").replace(" ", "");
     var city = $(this).attr("data-city");
+    var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
 
-    //send these 3 vars to Node as a req
-    $.getJSON("/foursquare/"+place+"/"+city, function(results){
-      venDt = results[0][0];
-      picDt = results[1];
+    //send these 4 vars to Node as a req
+    $.getJSON(`/foursquare/${place}/${city}/${gameID}`, function(results){
+      lnScr = results[0].scores;
+      lnScrDt = results[0].scores.data.game;
+      venDt = results[1][0];
+      picDt = results[2].photos;
       var venURL = venDt.url;
       var venAddr = venDt.location.address;
       var venPO = venDt.location.postalCode;
       var phone = venDt.contact.formattedPhone;
       var unforPhone = venDt.contact.phone;
       picLn = picDt.length;
-
-console.log(venDt);
-console.log(picDt);
-
+console.log(lnScrDt);
       $('#venLink').attr("href", venURL).text(placeOG);
       $('#modAddress').text(venAddr);
       $('#modCity').text(city + " "+ venPO);
       $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
       $('#venueModal').foundation('open');
+      $("#disclaimer").text(lnScr.copyright);
     });
   });
 
@@ -61,6 +62,8 @@ console.log(picDt);
     $('#venueModal').css("background-image", "url("+picDt[randNum]+")");
   });
 });
-//SET PHOTO BACKGROUND BASED ON CLICKED VENUE
+//modal background to Reveal Orbit
 //CHANGE BOX COLORS BASED ON HOME TEAM OF CLICKED VENUE (AWAY TEAM IF CLICKED 2X)
-//MODAL POPUP WITH VENUE INFO (stadium pic as background)
+//Make boxes more obviously clickable
+//Set modal size based on picture
+//add foundation preloader while modal loads
