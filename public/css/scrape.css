@@ -6,7 +6,7 @@ body {
   background-color: #F7EEE6;
 }
 
-h1, h3, p, #disclaimer {
+h1, h3, #gameInfo h4, p, #disclaimer {
   text-align: center;
 }
 
@@ -88,7 +88,7 @@ h1, h3, p, #disclaimer {
 #venueModal{
   background-size: cover;
   background-repeat: no-repeat;
-  height: 450px;
+  height: 600px;
 }
 
 .trans{

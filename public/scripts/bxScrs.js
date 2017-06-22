@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var picObj, venDt, lnScr, lnScrDt, picDt, picLn, randNum;
+  var picObj, venDt, lnScr, lnScrDt, picDt, picLn, randNum, mdlGameInfo;
   var mainHgt = screen.height;
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
@@ -29,12 +29,35 @@ $(document).ready(function(){
       lnScrDt = results[0].scores.data.game;
       venDt = results[1][0];
       picDt = results[2].photos;
+      picLn = picDt.length;
       var venURL = venDt.url;
       var venAddr = venDt.location.address;
       var venPO = venDt.location.postalCode;
       var phone = venDt.contact.formattedPhone;
       var unforPhone = venDt.contact.phone;
-      picLn = picDt.length;
+
+      if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
+        mdlGameInfo = `<div title="final score"><br><h3>FINAL</h3>`
+        mdlGameInfo += `<h4>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} `;
+        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h4>`;
+        mdlGameInfo += `<h4>vs ${lnScrDt.home_team_city} ${lnScrDt.home_team_name} `;
+        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h4></div>`;
+
+        var WPInfo  = `<div title="winning pitcher" class="medium-4 columns" id="WP">`;
+            WPInfo += `<p>WP: ${lnScrDt.winning_pitcher.last}`;
+            WPInfo += ` (${lnScrDt.winning_pitcher.wins} - ${lnScrDt.winning_pitcher.wins})</p>`;
+            WPInfo += `</div>`;
+
+        var LPInfo  = `<div title="losing pitcher" class="medium-4 columns" id="WP">`;
+            LPInfo += `<p>LP: ${lnScrDt.losing_pitcher.last}`;
+            LPInfo += ` (${lnScrDt.losing_pitcher.wins} - ${lnScrDt.losing_pitcher.wins})</p>`;
+            LPInfo += `</div>`;
+
+        var SvInfo  = `<div title="save pitcher" class="medium-4 columns" id="SP">`;
+            SvInfo += `<p>Sv: ${lnScrDt.save_pitcher.last}`;
+            SvInfo += ` (${lnScrDt.save_pitcher.saves})</p>`;
+            SvInfo += `</div><br>`;
+      }
 console.log(lnScrDt);
       $('#venLink').attr("href", venURL).text(placeOG);
       $('#modAddress').text(venAddr);
@@ -42,6 +65,10 @@ console.log(lnScrDt);
       $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
       $('#venueModal').foundation('open');
       $("#disclaimer").text(lnScr.copyright);
+
+      if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
+        $("#gameInfo").append(mdlGameInfo).append(WPInfo).append(LPInfo).append(SvInfo);
+      }
     });
   });
 
