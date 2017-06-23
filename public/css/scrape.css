@@ -6,8 +6,12 @@ body {
   background-color: #F7EEE6;
 }
 
-h1, h3, #gameInfo h4, p, #disclaimer {
+h1, h3, #gameInfo h4, p, #disclaimer, .centered {
   text-align: center;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .columns {

@@ -23,6 +23,7 @@ $(document).ready(function(){
     var city = $(this).attr("data-city");
     var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
 
+    $("#gameInfo").empty();
     //send these 4 vars to Node as a req
     $.getJSON(`/foursquare/${place}/${city}/${gameID}`, function(results){
       lnScr = results[0].scores;
@@ -35,30 +36,79 @@ $(document).ready(function(){
       var venPO = venDt.location.postalCode;
       var phone = venDt.contact.formattedPhone;
       var unforPhone = venDt.contact.phone;
+      var WPInfo, LPInfo, SvInfo, topYN;
 
+      //GAME INFO BASED ON STATUS
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
         mdlGameInfo = `<div title="final score"><br><h3>FINAL</h3>`
         mdlGameInfo += `<h4>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} `;
-        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h4>`;
-        mdlGameInfo += `<h4>vs ${lnScrDt.home_team_city} ${lnScrDt.home_team_name} `;
-        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h4></div>`;
+        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss}): ${lnScrDt.away_team_runs}</h4>`;
+        mdlGameInfo += `<h4> ${lnScrDt.home_team_city} ${lnScrDt.home_team_name} `;
+        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss}): ${lnScrDt.home_team_runs}</h4></div>`;
 
-        var WPInfo  = `<div title="winning pitcher" class="medium-4 columns" id="WP">`;
-            WPInfo += `<p>WP: ${lnScrDt.winning_pitcher.last}`;
-            WPInfo += ` (${lnScrDt.winning_pitcher.wins} - ${lnScrDt.winning_pitcher.wins})</p>`;
-            WPInfo += `</div>`;
+        WPInfo  = `<div title="winning pitcher" id="WP">`;
+        WPInfo += `<p>Win: ${lnScrDt.winning_pitcher.first} ${lnScrDt.winning_pitcher.last}`;
+        WPInfo += ` (${lnScrDt.winning_pitcher.wins} - ${lnScrDt.winning_pitcher.wins}, `;
+        WPInfo += `${lnScrDt.winning_pitcher.era})</p>`;
+        WPInfo += `</div>`;
 
-        var LPInfo  = `<div title="losing pitcher" class="medium-4 columns" id="WP">`;
-            LPInfo += `<p>LP: ${lnScrDt.losing_pitcher.last}`;
-            LPInfo += ` (${lnScrDt.losing_pitcher.wins} - ${lnScrDt.losing_pitcher.wins})</p>`;
-            LPInfo += `</div>`;
+        LPInfo  = `<div title="losing pitcher" id="WP">`;
+        LPInfo += `<p>Loss: ${lnScrDt.losing_pitcher.first} ${lnScrDt.losing_pitcher.last}`;
+        LPInfo += ` (${lnScrDt.losing_pitcher.wins} - ${lnScrDt.losing_pitcher.wins}, `;
+        LPInfo += `${lnScrDt.losing_pitcher.era})</p>`;
+        LPInfo += `</div>`;
 
-        var SvInfo  = `<div title="save pitcher" class="medium-4 columns" id="SP">`;
-            SvInfo += `<p>Sv: ${lnScrDt.save_pitcher.last}`;
-            SvInfo += ` (${lnScrDt.save_pitcher.saves})</p>`;
-            SvInfo += `</div><br>`;
+        if(lnScrDt.save_pitcher.last != ""){
+          SvInfo  = `<div title="save pitcher" id="SP">`;
+          SvInfo += `<p>Save: ${lnScrDt.save_pitcher.first} ${lnScrDt.save_pitcher.last}`;
+          SvInfo += ` (${lnScrDt.save_pitcher.saves}, ${lnScrDt.save_pitcher.era})</p>`;
+          SvInfo += `</div><br>`;
+        }
+      } else if(lnScrDt.status == "Preview" || lnScrDt.status == "Pre-Game" || lnScrDt.status == "Warmup"){
+        // mdlGameInfo = `<div title="preview"><br><h3>${topYN} ${lnScrDt.inning} </h3>`
+        // mdlGameInfo += `<h4>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} `;
+        // mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h4>`;
+        // mdlGameInfo += `<h4>vs ${lnScrDt.home_team_city} ${lnScrDt.home_team_name} `;
+        // mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h4></div>`;
+
+      } else if(lnScrDt.status == "In Progress"){
+        topYN = lnScrDt.top_inning == "Y" ? "TOP" : "BOTTOM";
+        mdlGameInfo = `<div><table title="current score">
+          <thead>
+            <tr>
+              <td>${topYN} ${lnScrDt.inning}</td>
+              <td>R</td>
+              <td>H</td>
+              <td>E</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} (${lnScrDt.away_win} - ${lnScrDt.away_loss})</td>
+              <td>${lnScrDt.away_team_runs}</td>
+              <td>${lnScrDt.away_team_hits}</td>
+              <td>${lnScrDt.away_team_errors}</td>
+            </tr>
+            <tr>
+              <td>${lnScrDt.home_team_city} ${lnScrDt.home_team_name} (${lnScrDt.home_win} - ${lnScrDt.home_loss})</td>
+              <td>${lnScrDt.home_team_runs}</td>
+              <td>${lnScrDt.home_team_hits}</td>
+              <td>${lnScrDt.home_team_errors}</td>
+            </tr>
+          </tbody>
+        </table></div>`;
+        playerInfo = `<div title="game progress">
+          <p>STRIKES: ${lnScrDt.strikes} BALLS: ${lnScrDt.balls} OUTS: ${lnScrDt.outs}</p>
+          <p>PITCHING: ${lnScrDt.current_pitcher.first} ${lnScrDt.current_pitcher.last}
+            (${lnScrDt.current_pitcher.wins} - ${lnScrDt.current_pitcher.wins}, ${lnScrDt.current_pitcher.era})</p>
+          <p>BATTING: ${lnScrDt.current_batter.first_name} ${lnScrDt.current_batter.last_name}
+           (${lnScrDt.current_batter.avg})</p>
+          <p>ON DECK: ${lnScrDt.current_ondeck.first_name} ${lnScrDt.current_ondeck.last_name}</p>
+          <p>IN THE HOLE: ${lnScrDt.current_inhole.first_name} ${lnScrDt.current_inhole.last_name}</p>
+        </div>`;
       }
-console.log(lnScrDt);
+      console.log(lnScrDt);
+
       $('#venLink').attr("href", venURL).text(placeOG);
       $('#modAddress').text(venAddr);
       $('#modCity').text(city + " "+ venPO);
@@ -68,7 +118,11 @@ console.log(lnScrDt);
 
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
         $("#gameInfo").append(mdlGameInfo).append(WPInfo).append(LPInfo).append(SvInfo);
-      }
+      } else if(lnScrDt.status == "Preview" || lnScrDt.status == "Pre-Game" || lnScrDt.status == "Warmup"){
+
+      } else if(lnScrDt.status == "In Progress"){
+        $("#gameInfo").append(mdlGameInfo).append(playerInfo);
+      }//Delayed Rain Delay Postponed
     });
   });
 
