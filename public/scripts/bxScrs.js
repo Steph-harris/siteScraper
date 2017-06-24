@@ -4,6 +4,17 @@ $(document).ready(function(){
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
 
+  function cityClean(city){
+    var TwinTeamCities = {"Ch": "Chicago", "NY" : "New York", "LA" : "Los Angeles"};
+    var citySl = city.slice(0,2);
+
+    if(TwinTeamCities.hasOwnProperty(citySl)){
+      return TwinTeamCities[citySl];
+    }
+
+    return city;
+  }
+
   if(artHgt>500){
     $("#articleDiv").css("height", artHgt);
     $("#gameScroll").css("height", gmHgt);
@@ -37,14 +48,16 @@ $(document).ready(function(){
       var phone = venDt.contact.formattedPhone;
       var unforPhone = venDt.contact.phone;
       var WPInfo, LPInfo, SvInfo, topYN;
+      var away_city = cityClean(lnScrDt.away_team_city);
+      var home_city = cityClean(lnScrDt.home_team_city);
 
       //GAME INFO BASED ON STATUS
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
-        mdlGameInfo = `<div title="final score"><br><h3>FINAL</h3>`
-        mdlGameInfo += `<h4>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} `;
-        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss}): ${lnScrDt.away_team_runs}</h4>`;
-        mdlGameInfo += `<h4> ${lnScrDt.home_team_city} ${lnScrDt.home_team_name} `;
-        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss}): ${lnScrDt.home_team_runs}</h4></div>`;
+        mdlGameInfo = `<div title="final score"><br><h4>FINAL</h4>`
+        mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
+        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss}): ${lnScrDt.away_team_runs}</h3>`;
+        mdlGameInfo += `<h3> ${home_city} ${lnScrDt.home_team_name} `;
+        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss}): ${lnScrDt.home_team_runs}</h3></div>`;
 
         WPInfo  = `<div title="winning pitcher" id="WP">`;
         WPInfo += `<p>Win: ${lnScrDt.winning_pitcher.first} ${lnScrDt.winning_pitcher.last}`;
@@ -65,15 +78,15 @@ $(document).ready(function(){
           SvInfo += `</div><br>`;
         }
       } else if(lnScrDt.status == "Preview" || lnScrDt.status == "Pre-Game" || lnScrDt.status == "Warmup"){
-        // mdlGameInfo = `<div title="preview"><br><h3>${topYN} ${lnScrDt.inning} </h3>`
-        // mdlGameInfo += `<h4>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} `;
-        // mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h4>`;
-        // mdlGameInfo += `<h4>vs ${lnScrDt.home_team_city} ${lnScrDt.home_team_name} `;
-        // mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h4></div>`;
+        mdlGameInfo = `<div title="preview"><br><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4>`
+        mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
+        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h3>`;
+        mdlGameInfo += `<h3>at ${home_city} ${lnScrDt.home_team_name} `;
+        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div>`;
 
       } else if(lnScrDt.status == "In Progress"){
         topYN = lnScrDt.top_inning == "Y" ? "TOP" : "BOTTOM";
-        mdlGameInfo = `<div><table title="current score">
+        mdlGameInfo = `<div><table title="current score" class="hover">
           <thead>
             <tr>
               <td>${topYN} ${lnScrDt.inning}</td>
@@ -84,13 +97,13 @@ $(document).ready(function(){
           </thead>
           <tbody>
             <tr>
-              <td>${lnScrDt.away_team_city} ${lnScrDt.away_team_name} (${lnScrDt.away_win} - ${lnScrDt.away_loss})</td>
+              <td>${away_city} ${lnScrDt.away_team_name} (${lnScrDt.away_win} - ${lnScrDt.away_loss})</td>
               <td>${lnScrDt.away_team_runs}</td>
               <td>${lnScrDt.away_team_hits}</td>
               <td>${lnScrDt.away_team_errors}</td>
             </tr>
             <tr>
-              <td>${lnScrDt.home_team_city} ${lnScrDt.home_team_name} (${lnScrDt.home_win} - ${lnScrDt.home_loss})</td>
+              <td>${home_city} ${lnScrDt.home_team_name} (${lnScrDt.home_win} - ${lnScrDt.home_loss})</td>
               <td>${lnScrDt.home_team_runs}</td>
               <td>${lnScrDt.home_team_hits}</td>
               <td>${lnScrDt.home_team_errors}</td>
@@ -119,7 +132,7 @@ $(document).ready(function(){
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
         $("#gameInfo").append(mdlGameInfo).append(WPInfo).append(LPInfo).append(SvInfo);
       } else if(lnScrDt.status == "Preview" || lnScrDt.status == "Pre-Game" || lnScrDt.status == "Warmup"){
-
+        $("#gameInfo").append(mdlGameInfo);
       } else if(lnScrDt.status == "In Progress"){
         $("#gameInfo").append(mdlGameInfo).append(playerInfo);
       }//Delayed Rain Delay Postponed
