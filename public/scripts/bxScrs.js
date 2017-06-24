@@ -3,6 +3,186 @@ $(document).ready(function(){
   var mainHgt = screen.height;
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
+  var teamColors = [{
+    "name": "Arizona D-backs",
+    "colors": {
+      "hex": ["A71930", "000000", "E3D4AD"]
+    }
+  },
+  {
+    "name": "Atlanta Braves",
+    "colors": {
+      "hex": ["CE1141", "13274F"]
+    }
+  },
+  {
+    "name": "Baltimore Orioles",
+    "colors": {
+      "hex": ["DF4601", "000000"]
+    }
+  },
+  {
+    "name": "Boston Red Sox",
+    "colors": {
+      "hex": ["BD3039", "0D2B56"]
+    }
+  },
+  {
+    "name": "Chicago Cubs",
+    "colors": {
+      "hex": ["CC3433", "0E3386"]
+    }
+  },
+  {
+    "name": "Chicago White Sox",
+    "colors": {
+      "hex": ["000000", "C4CED4"]
+    }
+  },
+  {
+    "name": "Cincinnati Reds",
+    "colors": {
+      "hex": ["C6011F", "000000"]
+    }
+  },
+  {
+    "name": "Colorado Rockies",
+    "colors": {
+      "hex": ["333366", "231F20", "C4CED4"]
+    }
+  },
+  {
+    "name": "Cleveland Indians",
+    "colors": {
+      "hex": ["E31937", "002B5C"]
+    }
+  },
+  {
+    "name": "Detroit Tigers",
+    "colors": {
+      "hex": ["0C2C56"]
+    }
+  },
+  {
+    "name": "Houston Astros",
+    "colors": {
+      "hex": ["002D62", "EB6E1F"]
+    }
+  },
+  {
+    "name": "Kansas City Royals",
+    "colors": {
+      "hex": ["004687", "C09A5B"]
+    }
+  },
+  {
+    "name": "Los Angeles Angels of Anaheim",
+    "colors": {
+      "hex": ["BA0021", "003263"]
+    }
+  },
+  {
+    "name": "Los Angeles Dodgers",
+    "colors": {
+      "hex": ["005A9C", "EF3E42"]
+    }
+  },
+  {
+    "name": "Miami Marlins",
+    "colors": {
+      "hex": ["FF6600", "0077C8", "FFD100", "000000"]
+    }
+  },
+  {
+    "name": "Milwaukee Brewers",
+    "colors": {
+      "hex": ["0A2351", "B6922E"]
+    }
+  },
+  {
+    "name": "Minnesota Twins",
+    "colors": {
+      "hex": ["002B5C", "D31145"]
+    }
+  },
+  {
+    "name": "New York Mets",
+    "colors": {
+      "hex": ["FF5910", "002D72"]
+    }
+  },
+  {
+    "name": "New York Yankees",
+    "colors": {
+      "hex": ["003087", "E4002B"]
+    }
+  },
+  {
+    "name": "Oakland Athletics",
+    "colors": {
+      "hex": ["003831", "EFB21E"]
+    }
+  },
+  {
+    "name": "Philadelphia Phillies",
+    "colors": {
+      "hex": ["284898", "E81828"]
+    }
+  },
+  {
+    "name": "Pittsburgh Pirates",
+    "colors": {
+      "hex": ["FDB827", "000000"]
+    }
+  },
+  {
+    "name": "San Diego Padres",
+    "colors": {
+      "hex": ["002D62", "FEC325", "7F411C", "A0AAB2"]
+    }
+  },
+  {
+    "name": "San Francisco Giants",
+    "colors": {
+      "hex": ["FD5A1E", "000000", "8B6F4E"]
+    }
+  },
+  {
+    "name": "Seattle Mariners",
+    "colors": {
+      "hex": ["0C2C56", "005C5C", "C4CED4"]
+    }
+  },
+  {
+    "name": "St. Louis Cardinals",
+    "colors": {
+      "hex": ["C41E3A", "000066", "FEDB00"]
+    }
+  },
+  {
+    "name": "Tampa Bay Rays",
+    "colors": {
+      "hex": ["092C5C", "8FBCE6", "F5D130"]
+    }
+  },
+  {
+    "name": "Texas Rangers",
+    "colors": {
+      "hex": ["C0111F", "003278"]
+    }
+  },
+  {
+    "name": "Toronto Blue Jays",
+    "colors": {
+      "hex": ["134A8E", "1D2D5C", "E8291C"]
+    }
+  },
+  {
+    "name": "Washington Nationals",
+    "colors": {
+      "hex": ["AB0003", "11225B"]
+    }
+  }];
 
   function cityClean(city){
     var TwinTeamCities = {"Ch": "Chicago", "NY" : "New York", "LA" : "Los Angeles"};
@@ -13,6 +193,34 @@ $(document).ready(function(){
     }
 
     return city;
+  }
+
+  function binSearch(arrTm, searchVal){
+    var floor = 0;
+    var ceil = arrTm.length -1;
+    var index, arMidLn;
+
+    while (floor <= ceil){
+      arMidLn = Math.floor((floor + ceil)/2);
+
+      if(searchVal > arrTm[arMidLn]["name"]){
+        floor = arMidLn +1;
+      } else if(searchVal < arrTm[arMidLn]["name"]) {
+        ceil = arMidLn -1;
+      } else {
+        index = arMidLn;
+        return index;
+      }
+    }
+
+    return -1;
+  }
+
+  function setHomeColors(homeTm){
+    var i = binSearch(teamColors, homeTm);
+
+    console.log(`${homeTm}'s main hex color: ${teamColors[i]["colors"]["hex"][0]}`);
+    return {"main": teamColors[i]["colors"]["hex"][0], "alt": teamColors[i]["colors"]["hex"][1]};
   }
 
   if(artHgt>500){
@@ -54,6 +262,9 @@ $(document).ready(function(){
       var WPInfo, LPInfo, SvInfo, topYN;
       var away_city = cityClean(lnScrDt.away_team_city);
       var home_city = cityClean(lnScrDt.home_team_city);
+      var homeCityAndTeam = setHomeColors(home_city +" "+lnScrDt.home_team_name);
+
+      console.log(homeCityAndTeam.main);
 
       //GAME INFO BASED ON STATUS
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
@@ -116,6 +327,7 @@ $(document).ready(function(){
           </tbody>
         </table></div>`;
         playerInfo = `<div title="game progress">
+          <p>LAST PLAY: ${lnScrDt.pbp_last}</p>
           <p>STRIKES: ${lnScrDt.strikes} BALLS: ${lnScrDt.balls} OUTS: ${lnScrDt.outs}</p>
           <p>PITCHING: ${lnScrDt.current_pitcher.first} ${lnScrDt.current_pitcher.last}
             (${lnScrDt.current_pitcher.wins} - ${lnScrDt.current_pitcher.wins}, ${lnScrDt.current_pitcher.era})</p>
@@ -131,7 +343,7 @@ $(document).ready(function(){
       $('#modAddress').text(venAddr);
       $('#modCity').text(city + " "+ venPO);
       $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
-      $('#venueModal').foundation('open');
+      $('#venueModal').css('color', `#${homeCityAndTeam.main}`);
       $("#disclaimer").text(lnScr.copyright);
 
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
@@ -141,6 +353,8 @@ $(document).ready(function(){
       } else if(lnScrDt.status == "In Progress"){
         $("#gameInfo").append(mdlGameInfo).append(playerInfo);
       }//Delayed Rain Delay Postponed
+
+      $('#venueModal').foundation('open');
     });
   });
 
