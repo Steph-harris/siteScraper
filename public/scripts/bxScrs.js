@@ -34,6 +34,10 @@ $(document).ready(function(){
     var city = $(this).attr("data-city");
     var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
 
+    if(place == "AT&TPark"){
+      place = "att-park";
+    }
+
     $("#gameInfo").empty();
     //send these 4 vars to Node as a req
     $.getJSON(`/foursquare/${place}/${city}/${gameID}`, function(results){
@@ -81,7 +85,8 @@ $(document).ready(function(){
         mdlGameInfo = `<div title="preview"><br><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4>`
         mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
         mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h3>`;
-        mdlGameInfo += `<h3>at ${home_city} ${lnScrDt.home_team_name} `;
+        mdlGameInfo += `<h4>@</h4>`;
+        mdlGameInfo += `<h3>${home_city} ${lnScrDt.home_team_name} `;
         mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div>`;
 
       } else if(lnScrDt.status == "In Progress"){
