@@ -90,7 +90,7 @@ $(document).ready(function(){
   {
     "name": "Miami Marlins",
     "colors": {
-      "hex": ["FF6600", "0077C8", "FFD100", "000000"]
+      "hex": ["0077C8", "FF6600", "FFD100", "000000"]
     }
   },
   {
@@ -108,7 +108,7 @@ $(document).ready(function(){
   {
     "name": "New York Mets",
     "colors": {
-      "hex": ["FF5910", "002D72"]
+      "hex": ["002D72", "FF5910"]
     }
   },
   {
@@ -138,19 +138,19 @@ $(document).ready(function(){
   {
     "name": "San Diego Padres",
     "colors": {
-      "hex": ["002D62", "FEC325", "7F411C", "A0AAB2"]
+      "hex": ["002D62", "7F411C", "FEC325",  "A0AAB2"]
     }
   },
   {
     "name": "San Francisco Giants",
     "colors": {
-      "hex": ["FD5A1E", "000000", "8B6F4E"]
+      "hex": ["000000", "FD5A1E", "8B6F4E"]
     }
   },
   {
     "name": "Seattle Mariners",
     "colors": {
-      "hex": ["0C2C56", "005C5C", "C4CED4"]
+      "hex": ["005C5C", "0C2C56", "C4CED4"]
     }
   },
   {
@@ -219,7 +219,6 @@ $(document).ready(function(){
   function setHomeColors(homeTm){
     var i = binSearch(teamColors, homeTm);
 
-    console.log(`${homeTm}'s main hex color: ${teamColors[i]["colors"]["hex"][0]}`);
     return {"main": teamColors[i]["colors"]["hex"][0], "alt": teamColors[i]["colors"]["hex"][1]};
   }
 
@@ -344,6 +343,7 @@ $(document).ready(function(){
       $('#modCity').text(city + " "+ venPO);
       $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
       $('#venueModal').css('color', `#${homeCityAndTeam.main}`);
+      $('#venueModal a').css('color', `#${homeCityAndTeam.alt}`);
       $("#disclaimer").text(lnScr.copyright);
 
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
