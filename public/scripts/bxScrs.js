@@ -326,13 +326,13 @@ $(document).ready(function(){
           </thead>
           <tbody>
             <tr>
-              <td>${away_city} ${lnScrDt.away_team_name} (${lnScrDt.away_win} - ${lnScrDt.away_loss})</td>
+              <td class="bold">${away_city} ${lnScrDt.away_team_name} (${lnScrDt.away_win} - ${lnScrDt.away_loss})</td>
               <td>${lnScrDt.away_team_runs}</td>
               <td>${lnScrDt.away_team_hits}</td>
               <td>${lnScrDt.away_team_errors}</td>
             </tr>
             <tr>
-              <td>${home_city} ${lnScrDt.home_team_name} (${lnScrDt.home_win} - ${lnScrDt.home_loss})</td>
+              <td class="bold">${home_city} ${lnScrDt.home_team_name} (${lnScrDt.home_win} - ${lnScrDt.home_loss})</td>
               <td>${lnScrDt.home_team_runs}</td>
               <td>${lnScrDt.home_team_hits}</td>
               <td>${lnScrDt.home_team_errors}</td>
@@ -340,8 +340,10 @@ $(document).ready(function(){
           </tbody>
         </table></div>`;
         playerInfo = `<div title="game progress">
+          <p class="bold">STRIKES: ${lnScrDt.strikes} BALLS: ${lnScrDt.balls} OUTS: ${lnScrDt.outs}</p>
+          <br>
           <p>LAST PLAY: ${lnScrDt.pbp_last}</p>
-          <p>STRIKES: ${lnScrDt.strikes} BALLS: ${lnScrDt.balls} OUTS: ${lnScrDt.outs}</p>
+          <br>
           <p>PITCHING: ${lnScrDt.current_pitcher.first} ${lnScrDt.current_pitcher.last}
             (${lnScrDt.current_pitcher.wins} - ${lnScrDt.current_pitcher.wins}, ${lnScrDt.current_pitcher.era})</p>
           <p>BATTING: ${lnScrDt.current_batter.first_name} ${lnScrDt.current_batter.last_name}
