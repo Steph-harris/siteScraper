@@ -6,7 +6,7 @@ body {
   background-color: #F7EEE6;
 }
 
-h1, h3, #gameInfo h4, p, #disclaimer, .centered {
+h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   text-align: center;
 }
 
@@ -87,6 +87,10 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered {
 
 .preview-line {
   text-align: center;
+}
+
+.preview h3, .final h3 {
+  font-weight: bold;
 }
 
 #venueModal{

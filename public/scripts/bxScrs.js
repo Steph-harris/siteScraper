@@ -6,31 +6,31 @@ $(document).ready(function(){
   var teamColors = [{
     "name": "Arizona D-backs",
     "colors": {
-      "hex": ["A71930", "000000", "E3D4AD"]
+      "hex": ["000000", "A71930", "E3D4AD"]
     }
   },
   {
     "name": "Atlanta Braves",
     "colors": {
-      "hex": ["CE1141", "13274F"]
+      "hex": ["13274F", "CE1141"]
     }
   },
   {
     "name": "Baltimore Orioles",
     "colors": {
-      "hex": ["DF4601", "000000"]
+      "hex": ["000000", "DF4601"]
     }
   },
   {
     "name": "Boston Red Sox",
     "colors": {
-      "hex": ["BD3039", "0D2B56"]
+      "hex": ["0D2B56", "BD3039"]
     }
   },
   {
     "name": "Chicago Cubs",
     "colors": {
-      "hex": ["CC3433", "0E3386"]
+      "hex": ["0E3386", "CC3433"]
     }
   },
   {
@@ -42,7 +42,7 @@ $(document).ready(function(){
   {
     "name": "Cincinnati Reds",
     "colors": {
-      "hex": ["C6011F", "000000"]
+      "hex": ["000000", "C6011F"]
     }
   },
   {
@@ -54,13 +54,13 @@ $(document).ready(function(){
   {
     "name": "Cleveland Indians",
     "colors": {
-      "hex": ["E31937", "002B5C"]
+      "hex": ["002B5C", "E31937"]
     }
   },
   {
     "name": "Detroit Tigers",
     "colors": {
-      "hex": ["0C2C56"]
+      "hex": ["0C2C56", "000000"]
     }
   },
   {
@@ -78,7 +78,7 @@ $(document).ready(function(){
   {
     "name": "Los Angeles Angels of Anaheim",
     "colors": {
-      "hex": ["BA0021", "003263"]
+      "hex": ["003263", "BA0021"]
     }
   },
   {
@@ -90,7 +90,7 @@ $(document).ready(function(){
   {
     "name": "Miami Marlins",
     "colors": {
-      "hex": ["0077C8", "FF6600", "FFD100", "000000"]
+      "hex": ["000000", "FF6600", "FFD100", "0077C8"]
     }
   },
   {
@@ -132,7 +132,7 @@ $(document).ready(function(){
   {
     "name": "Pittsburgh Pirates",
     "colors": {
-      "hex": ["FDB827", "000000"]
+      "hex": ["000000", "FDB827"]
     }
   },
   {
@@ -150,13 +150,13 @@ $(document).ready(function(){
   {
     "name": "Seattle Mariners",
     "colors": {
-      "hex": ["005C5C", "0C2C56", "C4CED4"]
+      "hex": ["0C2C56", "005C5C", "C4CED4"]
     }
   },
   {
     "name": "St. Louis Cardinals",
     "colors": {
-      "hex": ["C41E3A", "000066", "FEDB00"]
+      "hex": ["000066", "C41E3A", "FEDB00"]
     }
   },
   {
@@ -168,7 +168,7 @@ $(document).ready(function(){
   {
     "name": "Texas Rangers",
     "colors": {
-      "hex": ["C0111F", "003278"]
+      "hex": ["003278", "C0111F"]
     }
   },
   {
@@ -180,7 +180,7 @@ $(document).ready(function(){
   {
     "name": "Washington Nationals",
     "colors": {
-      "hex": ["AB0003", "11225B"]
+      "hex": ["11225B", "AB0003"]
     }
   }];
 
@@ -267,41 +267,55 @@ $(document).ready(function(){
 
       //GAME INFO BASED ON STATUS
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
-        mdlGameInfo = `<div title="final score"><br><h4>FINAL</h4>`
+        mdlGameInfo = `<div title="final score" class="final"><br><h4>FINAL</h4>`
         mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
         mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss}): ${lnScrDt.away_team_runs}</h3>`;
         mdlGameInfo += `<h3> ${home_city} ${lnScrDt.home_team_name} `;
         mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss}): ${lnScrDt.home_team_runs}</h3></div>`;
 
-        WPInfo  = `<div title="winning pitcher" id="WP">`;
-        WPInfo += `<p>Win: ${lnScrDt.winning_pitcher.first} ${lnScrDt.winning_pitcher.last}`;
-        WPInfo += ` (${lnScrDt.winning_pitcher.wins} - ${lnScrDt.winning_pitcher.wins}, `;
-        WPInfo += `${lnScrDt.winning_pitcher.era})</p>`;
+        WPInfo  = `<br><div title="winning pitcher" class="WP">`;
+        WPInfo += `<h5>Win: ${lnScrDt.winning_pitcher.first} ${lnScrDt.winning_pitcher.last}`;
+        WPInfo += ` (${lnScrDt.winning_pitcher.wins} - ${lnScrDt.winning_pitcher.losses}, `;
+        WPInfo += `${lnScrDt.winning_pitcher.era})</h5>`;
         WPInfo += `</div>`;
 
-        LPInfo  = `<div title="losing pitcher" id="WP">`;
-        LPInfo += `<p>Loss: ${lnScrDt.losing_pitcher.first} ${lnScrDt.losing_pitcher.last}`;
-        LPInfo += ` (${lnScrDt.losing_pitcher.wins} - ${lnScrDt.losing_pitcher.wins}, `;
-        LPInfo += `${lnScrDt.losing_pitcher.era})</p>`;
+        LPInfo  = `<div title="losing pitcher" class="LP">`;
+        LPInfo += `<h5>Loss: ${lnScrDt.losing_pitcher.first} ${lnScrDt.losing_pitcher.last}`;
+        LPInfo += ` (${lnScrDt.losing_pitcher.wins} - ${lnScrDt.losing_pitcher.losses}, `;
+        LPInfo += `${lnScrDt.losing_pitcher.era})</h5>`;
         LPInfo += `</div>`;
 
         if(lnScrDt.save_pitcher.last != ""){
-          SvInfo  = `<div title="save pitcher" id="SP">`;
-          SvInfo += `<p>Save: ${lnScrDt.save_pitcher.first} ${lnScrDt.save_pitcher.last}`;
-          SvInfo += ` (${lnScrDt.save_pitcher.saves}, ${lnScrDt.save_pitcher.era})</p>`;
+          SvInfo  = `<div title="save pitcher" class="SP">`;
+          SvInfo += `<h5>Save: ${lnScrDt.save_pitcher.first} ${lnScrDt.save_pitcher.last}`;
+          SvInfo += ` (${lnScrDt.save_pitcher.saves}, ${lnScrDt.save_pitcher.era})</h5>`;
           SvInfo += `</div><br>`;
+        } else {
+          LPInfo += "<br>";
         }
       } else if(lnScrDt.status == "Preview" || lnScrDt.status == "Pre-Game" || lnScrDt.status == "Warmup"){
-        mdlGameInfo = `<div title="preview"><br><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4>`
+        mdlGameInfo = `<div title="preview" class="preview"><br><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4>`
         mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
         mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h3>`;
         mdlGameInfo += `<h4>@</h4>`;
         mdlGameInfo += `<h3>${home_city} ${lnScrDt.home_team_name} `;
-        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div>`;
+        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div><br>`;
 
+        //add probable pitchers
+        pPitchers = `<div title="probables" class="probables">
+        <h4 class ="centered">PROBABLE PITCHERS</h4>
+        <h5 class="bold">${lnScrDt.away_name_abbrev}: ${lnScrDt.away_probable_pitcher.throwinghand} #${lnScrDt.away_probable_pitcher.number}
+         ${lnScrDt.away_probable_pitcher.first_name} ${lnScrDt.away_probable_pitcher.last_name}
+        (${lnScrDt.away_probable_pitcher.wins} - ${lnScrDt.away_probable_pitcher.losses},
+         ${lnScrDt.away_probable_pitcher.era})</h5>
+         <h5 class="bold">${lnScrDt.home_name_abbrev}: ${lnScrDt.home_probable_pitcher.throwinghand} #${lnScrDt.home_probable_pitcher.number}
+         ${lnScrDt.home_probable_pitcher.first_name} ${lnScrDt.home_probable_pitcher.last_name}
+         (${lnScrDt.home_probable_pitcher.wins} - ${lnScrDt.home_probable_pitcher.losses},
+         ${lnScrDt.home_probable_pitcher.era})</h5>
+        </div><br>`;
       } else if(lnScrDt.status == "In Progress"){
         topYN = lnScrDt.top_inning == "Y" ? "TOP" : "BOTTOM";
-        mdlGameInfo = `<div><table title="current score" class="hover">
+        mdlGameInfo = `<div class="started"><table title="current score" class="hover">
           <thead>
             <tr>
               <td>${topYN} ${lnScrDt.inning}</td>
@@ -344,12 +358,13 @@ $(document).ready(function(){
       $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
       $('#venueModal').css('color', `#${homeCityAndTeam.main}`);
       $('#venueModal a').css('color', `#${homeCityAndTeam.alt}`);
+      $('#gameInfo h4').css('color', `#${homeCityAndTeam.alt}`);
       $("#disclaimer").text(lnScr.copyright);
 
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
         $("#gameInfo").append(mdlGameInfo).append(WPInfo).append(LPInfo).append(SvInfo);
       } else if(lnScrDt.status == "Preview" || lnScrDt.status == "Pre-Game" || lnScrDt.status == "Warmup"){
-        $("#gameInfo").append(mdlGameInfo);
+        $("#gameInfo").append(mdlGameInfo).append(pPitchers);
       } else if(lnScrDt.status == "In Progress"){
         $("#gameInfo").append(mdlGameInfo).append(playerInfo);
       }//Delayed Rain Delay Postponed

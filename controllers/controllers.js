@@ -14,6 +14,11 @@ var version = "20170513";
 var secret = process.env.CLIENT_SECRET;
 var strp = secret.replace("nodemon","");
 var client = process.env.CLIENT_ID;
+var today = new Date();
+var yestToday = new Date(today);
+var tomorrow = new Date(today);
+yestToday.setDate(today.getDate() - 1);
+tomorrow.setDate(today.getDate() + 1);
 
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
@@ -110,7 +115,7 @@ router.get("/scrapedNBA", function(req, res){
 router.get("/", function(req, res){
   async.parallel({
     games: function(callback){
-      gamedayHelper.miniScoreboard(new Date())
+      gamedayHelper.miniScoreboard(today)
       .then(function(data){
         // console.log(data);
         var games = data.game;
