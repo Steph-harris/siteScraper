@@ -217,7 +217,6 @@ $(document).ready(function(){
   }
 
   function setHomeColors(homeTm){
-    console.log(homeTm);
     var i = binSearch(teamColors, homeTm);
 
     return {"main": teamColors[i]["colors"]["hex"][0], "alt": teamColors[i]["colors"]["hex"][1]};
@@ -264,7 +263,7 @@ $(document).ready(function(){
       var home_city = cityClean(lnScrDt.home_team_city);
       var homeCityAndTeam = setHomeColors(home_city +" "+lnScrDt.home_team_name);
 
-      console.log(homeCityAndTeam.main);
+      // console.log(homeCityAndTeam.main);
 
       //GAME INFO BASED ON STATUS
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
