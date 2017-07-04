@@ -46,21 +46,21 @@ $(document).ready(function(){
     }
   },
   {
-    "name": "Colorado Rockies",
-    "colors": {
-      "hex": ["333366", "231F20", "C4CED4"]
-    }
-  },
-  {
     "name": "Cleveland Indians",
     "colors": {
       "hex": ["002B5C", "E31937"]
     }
   },
   {
+    "name": "Colorado Rockies",
+    "colors": {
+      "hex": ["231F20", "333366", "C4CED4"]
+    }
+  },
+  {
     "name": "Detroit Tigers",
     "colors": {
-      "hex": ["0C2C56", "000000"]
+      "hex": ["000000", "0C2C56"]
     }
   },
   {
@@ -76,7 +76,7 @@ $(document).ready(function(){
     }
   },
   {
-    "name": "Los Angeles Angels of Anaheim",
+    "name": "Los Angeles Angels",
     "colors": {
       "hex": ["003263", "BA0021"]
     }
@@ -217,6 +217,7 @@ $(document).ready(function(){
   }
 
   function setHomeColors(homeTm){
+    console.log(homeTm);
     var i = binSearch(teamColors, homeTm);
 
     return {"main": teamColors[i]["colors"]["hex"][0], "alt": teamColors[i]["colors"]["hex"][1]};
