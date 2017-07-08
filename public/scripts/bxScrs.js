@@ -244,6 +244,7 @@ $(document).ready(function(){
     if(place == "AT&TPark"){
       place = "att-park";
     }
+    //angel stadium = angel-stadium-of-anaheim
 
     $("#gameInfo").empty();
     //send these 4 vars to Node as a req
@@ -313,7 +314,7 @@ $(document).ready(function(){
          (${lnScrDt.home_probable_pitcher.wins} - ${lnScrDt.home_probable_pitcher.losses},
          ${lnScrDt.home_probable_pitcher.era})</h5>
         </div><br>`;
-      } else if(lnScrDt.status == "In Progress"){
+      } else if(lnScrDt.status == "In Progress" || lnScrDt.status == "Delay"){
         topYN = lnScrDt.top_inning == "Y" ? "TOP" : "BOTTOM";
         mdlGameInfo = `<div class="started"><table title="current score" class="hover">
           <thead>
@@ -390,6 +391,23 @@ $(document).ready(function(){
 
     //set pic as background
     $('#venueModal').css("background-image", "url("+picDt[randNum]+")");
+  });
+
+  $(document).on("click", ".fa-angle-double-left", function(){
+    var date = "yesterday";
+    console.log("left click");
+
+    $.getJSON("/gameDate/yesterday", function(results){
+      console.log(results);
+    });
+  });
+
+  $(document).on("click", ".fa-angle-double-right", function(){
+    var date = "tomorrow";
+    console.log("right click");
+    $.getJSON("/gameDate/tomorrow", function(results){
+      console.log(results);
+    });
   });
 });
 //modal background to Reveal Orbit

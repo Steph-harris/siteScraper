@@ -17,8 +17,11 @@ var client = process.env.CLIENT_ID;
 var today = new Date();
 var yestToday = new Date(today);
 var tomorrow = new Date(today);
+today.setHours(today.getHours() - 4);
 yestToday.setDate(today.getDate() - 1);
 tomorrow.setDate(today.getDate() + 1);
+
+console.log(`today is ${today}`);
 
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
@@ -91,25 +94,6 @@ request('http://www.mlb.com/home', function (error, response, body) {
   }
 });
 
-router.get("/scrapedNBA", function(req, res){
-  request('http://data.nba.com/data/5s/v2015/json/mobile_teams/nba/2016/scores/00_todays_scores.json',
-    function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        // console.log(body); // Show the HTML for the Google homepage.
-        // res.render("hoops", body);
-      }
-    }
-  // console.log("date is " +new Date());
-  // nba.stats.scoreboard("00", "0", "2017-02-06")
-  //   .then(function (players) {
-  //     var str = JSON.stringify(players, null, 2);
-  //     res.send(JSON.parse(str));
-  //   })
-  //   .catch(function(err){
-  //     console.log(err);
-  //   });
-  )
-});
 
 //Get game data from mlb.com
 router.get("/", function(req, res){
@@ -164,13 +148,50 @@ router.get("/", function(req, res){
   });
 });
 
-//Get data from NBA package
-router.get("/alt", function(req, res){
-    //get data from package and set as var
-    var nbaData =
-   res.render("hoops", {
-      bball: games
-   })
+
+router.get("/gameDate/:date", function(req, res){
+  var date;
+
+  if(req.params.date == "yesterday"){
+    date = yestToday;
+  } else if(req.params.date == "tomorrow"){
+    date = tomorrow;
+  } else if(req.params.date == "today"){
+    date = today;
+  }
+
+
+  gamedayHelper.miniScoreboard(date)
+  .then(function(data){
+    // console.log(data);
+    var games = data.game;
+    var inP = 0;
+
+    //MODIFY JSON TO USE W/ HANDLEBARS
+    for(var i=0; i<games.length; i++){
+      var status = data.game[i].status;
+      if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
+        data.game[i].showTimeDisplay = true;
+      }
+
+      if(data.game[i].status == "In Progress"){
+        data.game[i].inProgress = true;
+        inP++;
+        //only show info for in status games
+        console.log(data.game[i]);
+      }
+
+      if(data.game[i].status == "Final"){
+        console.log(data.game[i]);
+      }
+
+      if(data.game[i].top_inning == "Y"){
+        data.game[i].topHalf = true;
+      }
+    }
+    // callback(null, games);
+    res.send(games);
+  });
 });
 
 router.get("/scrapedData", function(req, res){
