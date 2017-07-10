@@ -1,5 +1,4 @@
-<h1>Welcome to the Site Scraper!</h1>
-<p>Can you tell what other site is powering this one???</p>
+<h1>DAILY MLBriefing</h1>
 
 <div class="weatherWidget medium-3" title="Click for Weather">
   <h5 id="wuTitle">Click for Weather</h5>
@@ -38,7 +37,11 @@
     </div>
   </div>
   <div class="medium-3 columns game-div">
-    <h3 title="Today's Games" class="game-head">Today's Games</h3>
+    <h3 title="Today's Games" class="game-head">
+
+      Today's Games
+
+    </h3>
     <div id="gameScroll">
       {{#if pageData.games}}
         {{#each pageData.games}}
@@ -83,7 +86,7 @@
       {{else}}
          <div class="game-boxes">
            <div class="game-head">
-              <h4 class="game-head">No MLB Games Scheduled</h4>
+              <h4 class="game-head">No Games Scheduled</h4>
             </div>
          </div>
       {{/if}}
