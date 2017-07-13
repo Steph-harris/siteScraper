@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  var picObj, venDt, lnScr, lnScrDt, picDt, picLn, randNum, mdlGameInfo;
+  var picObj, venDt, lnScr, lnScrDt, picDt, picLn, randNum, mdlGameInfo, currInpdate;
   var mainHgt = screen.height;
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
@@ -223,8 +223,8 @@ $(document).ready(function(){
   }
 
   if(artHgt>500){
-    $("#articleDiv").css("height", artHgt);
-    $("#gameScroll").css("height", gmHgt);
+    $("#articleDiv").css("max-height", artHgt);
+    $("#gameScroll").css("max-height", gmHgt);
   } else {
     $("#articleDiv").css("height", 400);
     $("#gameScroll").css("height", 400);
@@ -394,19 +394,19 @@ $(document).ready(function(){
   });
 
   $(document).on("click", ".fa-angle-double-left", function(){
-    var date = "yesterday";
-    console.log("left click");
+    date = "yesterday";
 
     $.getJSON("/gameDate/yesterday", function(results){
       console.log(results);
+      $(".fa-angle-double-left").hide();
     });
   });
 
   $(document).on("click", ".fa-angle-double-right", function(){
-    var date = "tomorrow";
-    console.log("right click");
+    date = "tomorrow";
     $.getJSON("/gameDate/tomorrow", function(results){
       console.log(results);
+      $(".fa-angle-double-left").show();
     });
   });
 });

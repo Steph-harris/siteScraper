@@ -103,10 +103,12 @@ router.get("/", function(req, res){
       .then(function(data){
         // console.log(data);
         var games = data.game;
-        var inP = 0;
 
         //MODIFY JSON TO USE W/ HANDLEBARS
         if(games){
+          let gamesLn = games.length;
+          let inP = 0;
+
           for(var i=0; i<games.length; i++){
             var status = data.game[i].status;
             if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
@@ -129,6 +131,7 @@ router.get("/", function(req, res){
             }
           }
         }
+        console.log(`there are ${gamesLn} games`);
         callback(null, games);
       })
     },
@@ -146,6 +149,7 @@ router.get("/", function(req, res){
     }
   },
     function(err, results){
+      console.log(results);
       res.render("home", {pageData: results})
   });
 });
@@ -170,25 +174,27 @@ router.get("/gameDate/:date", function(req, res){
     var inP = 0;
 
     //MODIFY JSON TO USE W/ HANDLEBARS
-    for(var i=0; i<games.length; i++){
-      var status = data.game[i].status;
-      if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
-        data.game[i].showTimeDisplay = true;
-      }
+    if(games){
+      for(var i=0; i<games.length; i++){
+        var status = data.game[i].status;
+        if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
+          data.game[i].showTimeDisplay = true;
+        }
 
-      if(data.game[i].status == "In Progress"){
-        data.game[i].inProgress = true;
-        inP++;
-        //only show info for in status games
-        console.log(data.game[i]);
-      }
+        if(data.game[i].status == "In Progress"){
+          data.game[i].inProgress = true;
+          inP++;
+          //only show info for in status games
+          console.log(data.game[i]);
+        }
 
-      if(data.game[i].status == "Final"){
-        console.log(data.game[i]);
-      }
+        if(data.game[i].status == "Final"){
+          console.log(data.game[i]);
+        }
 
-      if(data.game[i].top_inning == "Y"){
-        data.game[i].topHalf = true;
+        if(data.game[i].top_inning == "Y"){
+          data.game[i].topHalf = true;
+        }
       }
     }
     // callback(null, games);

@@ -22,12 +22,8 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   background-color: rgba(255,255,255,.9);
   color: #F7742C;
   padding: 5%;
-  overflow: scroll;
+  overflow-y: scroll;
   padding-bottom: 15px;
-}
-
-#articleScroll {
-  overflow: scroll;
 }
 
 .main-stories p a, span {
@@ -104,7 +100,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 }
 
 #gameScroll{
-  overflow: scroll;
+  overflow-y: scroll;
   padding-bottom: 15px;
 }
 
