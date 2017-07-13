@@ -106,8 +106,8 @@ router.get("/", function(req, res){
 
         //MODIFY JSON TO USE W/ HANDLEBARS
         if(games){
-          let gamesLn = games.length;
-          let inP = 0;
+          var gamesLn = games.length;
+          var inP = 0;
 
           for(var i=0; i<games.length; i++){
             var status = data.game[i].status;
