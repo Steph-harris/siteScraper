@@ -60,7 +60,7 @@ $(document).ready(function(){
   {
     "name": "Detroit Tigers",
     "colors": {
-      "hex": ["000000", "0C2C56"]
+      "hex": [ "0C2C56", "FA4614", "000000"]
     }
   },
   {
@@ -241,9 +241,13 @@ $(document).ready(function(){
     var city = $(this).attr("data-city");
     var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
 
+    //SETTING NAMES FOR PARKS W/ ALTERNATE 4SQUARE NAMES
     if(place == "AT&TPark"){
       place = "att-park";
+    } else if(place == "OaklandColiseum"){
+      place = "oco-coliseum";
     }
+
     //angel stadium = angel-stadium-of-anaheim
 
     $("#gameInfo").empty();
