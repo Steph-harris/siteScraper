@@ -332,30 +332,30 @@ $(document).ready(function(){
           <tbody>
             <tr>
               <td class="bold">${away_city} ${lnScrDt.away_team_name} (${lnScrDt.away_win} - ${lnScrDt.away_loss})</td>
-              <td>${lnScrDt.away_team_runs}</td>
-              <td>${lnScrDt.away_team_hits}</td>
-              <td>${lnScrDt.away_team_errors}</td>
+              <td class="bold">${lnScrDt.away_team_runs}</td>
+              <td class="bold">${lnScrDt.away_team_hits}</td>
+              <td class="bold">${lnScrDt.away_team_errors}</td>
             </tr>
             <tr>
               <td class="bold">${home_city} ${lnScrDt.home_team_name} (${lnScrDt.home_win} - ${lnScrDt.home_loss})</td>
-              <td>${lnScrDt.home_team_runs}</td>
-              <td>${lnScrDt.home_team_hits}</td>
-              <td>${lnScrDt.home_team_errors}</td>
+              <td class="bold">${lnScrDt.home_team_runs}</td>
+              <td class="bold">${lnScrDt.home_team_hits}</td>
+              <td class="bold">${lnScrDt.home_team_errors}</td>
             </tr>
           </tbody>
         </table></div>`;
         playerInfo = `<div title="game progress">
           <p class="bold">STRIKES: ${lnScrDt.strikes} BALLS: ${lnScrDt.balls} OUTS: ${lnScrDt.outs}</p>
           <br>
-          <p>LAST PLAY: ${lnScrDt.pbp_last}</p>
+          <p class="bold">LAST PLAY: ${lnScrDt.pbp_last}</p>
           <br>
-          <p>PITCHING: ${lnScrDt.current_pitcher.first} ${lnScrDt.current_pitcher.last}
+          <p><b>PITCHING:</b> ${lnScrDt.current_pitcher.first} ${lnScrDt.current_pitcher.last}
             (${lnScrDt.current_pitcher.wins} - ${lnScrDt.current_pitcher.wins}, ${lnScrDt.current_pitcher.era})</p>
-          <p>BATTING: ${lnScrDt.current_batter.first_name} ${lnScrDt.current_batter.last_name}
+          <p><b>BATTING:</b> ${lnScrDt.current_batter.first_name} ${lnScrDt.current_batter.last_name}
            (${lnScrDt.current_batter.avg})</p>
-          <p>ON DECK: ${lnScrDt.current_ondeck.first_name} ${lnScrDt.current_ondeck.last_name}</p>
-          <p>IN THE HOLE: ${lnScrDt.current_inhole.first_name} ${lnScrDt.current_inhole.last_name}</p>
-        </div>`;
+          <p><b>ON DECK:</b> ${lnScrDt.current_ondeck.first_name} ${lnScrDt.current_ondeck.last_name}</p>
+          <p><b>IN THE HOLE:</b> ${lnScrDt.current_inhole.first_name} ${lnScrDt.current_inhole.last_name}</p>
+        </div><br>`;
       }
       console.log(lnScrDt);
 
@@ -381,7 +381,7 @@ $(document).ready(function(){
   });
 
   $(".game-boxes").hover(function(){
-    $(this).attr("title", "Click for Stadium Info");
+    $(this).attr("title", "Click for Game Information");
     $(this).css("background-color","#cecece");
     $(this).children(".status-tab").css("background-color","#ec8170");
   }, function(){

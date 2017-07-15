@@ -13,7 +13,7 @@
         {{#each pageData.dbHeadlines}}
           <p>
             <a href={{headLink}}
-             title={{headline}}>  {{headline}}
+             title={{headline}} target="_blank"> {{headline}}
             </a>
           </p>
           <div>
@@ -72,12 +72,12 @@
             @ {{home_name_abbrev}}({{home_win}}-{{home_loss}})</h5>
             {{#if away_probable_pitcher.last_name}}
               <h4 class="game-pitchers">{{away_probable_pitcher.last_name}} vs. {{home_probable_pitcher.last_name}}</h4>
-              <a href="http://mlb.mlb.com{{preview_link}}">Preview Matchup</a>
+              <a href="http://mlb.mlb.com{{preview_link}}" target="_blank">Preview Matchup</a>
               {{else}}
               <h4 class="score-bold">{{away_team_name}} {{away_team_runs}} <br> {{home_team_name}} {{home_team_runs}}</h4>
               {{#if inProgress}}
                 <p>Outs: {{outs}}
-                  <a title="View Gameday" href="http://mlb.mlb.com/r/game?gid={{gameday_link}}"><i class="fa fa-headphones" aria-hidden="true"></i></a>
+                  <a title="View Gameday" href="http://mlb.mlb.com/r/game?gid={{gameday_link}}" target="_blank"><i class="fa fa-headphones" aria-hidden="true"></i></a>
               {{/if}}
               </p>
             {{/if}}
@@ -100,10 +100,10 @@
 
     </div>
     <div id="venueInfo">
-      <h4 class="centered" title="link to venue website" id="modalTitle"><a target="_blank" id="venLink"></a></h4 class="centered">
+      <h4 class="centered bold" title="link to venue website" id="modalTitle"><a target="_blank" id="venLink"></a></h4 class="centered">
       <p title="venue address" class="lead" id="modAddress"></p>
       <p title="venue city" class="lead" id="modCity"></p>
-      <p title="venue phone" class="lead" id="modPhone"><a title="call stadium" id="callVenue"></a></p>
+      <p title="venue phone" class="lead bold" id="modPhone"><a title="call stadium" id="callVenue"></a></p>
     </div>
 
     <button class="close-button" data-close aria-label="Close modal" type="button">
