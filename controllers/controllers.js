@@ -101,7 +101,6 @@ router.get("/", function(req, res){
     games: function(callback){
       gamedayHelper.miniScoreboard(today)
       .then(function(data){
-        // console.log(data);
         var games = data.game;
 
         //MODIFY JSON TO USE W/ HANDLEBARS
@@ -149,7 +148,6 @@ router.get("/", function(req, res){
     }
   },
     function(err, results){
-      console.log(results);
       res.render("home", {pageData: results})
   });
 });

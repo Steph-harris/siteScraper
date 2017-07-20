@@ -279,20 +279,20 @@ $(document).ready(function(){
         mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss}): ${lnScrDt.home_team_runs}</h3></div>`;
 
         WPInfo  = `<br><div title="winning pitcher" class="WP">`;
-        WPInfo += `<h5>Win: ${lnScrDt.winning_pitcher.first} ${lnScrDt.winning_pitcher.last}`;
+        WPInfo += `<h5><b>Win:</b> ${lnScrDt.winning_pitcher.first} ${lnScrDt.winning_pitcher.last}`;
         WPInfo += ` (${lnScrDt.winning_pitcher.wins} - ${lnScrDt.winning_pitcher.losses}, `;
         WPInfo += `${lnScrDt.winning_pitcher.era})</h5>`;
         WPInfo += `</div>`;
 
         LPInfo  = `<div title="losing pitcher" class="LP">`;
-        LPInfo += `<h5>Loss: ${lnScrDt.losing_pitcher.first} ${lnScrDt.losing_pitcher.last}`;
+        LPInfo += `<h5><b>Loss:</b> ${lnScrDt.losing_pitcher.first} ${lnScrDt.losing_pitcher.last}`;
         LPInfo += ` (${lnScrDt.losing_pitcher.wins} - ${lnScrDt.losing_pitcher.losses}, `;
         LPInfo += `${lnScrDt.losing_pitcher.era})</h5>`;
         LPInfo += `</div>`;
 
         if(lnScrDt.save_pitcher.last != ""){
           SvInfo  = `<div title="save pitcher" class="SP">`;
-          SvInfo += `<h5>Save: ${lnScrDt.save_pitcher.first} ${lnScrDt.save_pitcher.last}`;
+          SvInfo += `<h5><b>Save:</b> ${lnScrDt.save_pitcher.first} ${lnScrDt.save_pitcher.last}`;
           SvInfo += ` (${lnScrDt.save_pitcher.saves}, ${lnScrDt.save_pitcher.era})</h5>`;
           SvInfo += `</div><br>`;
         } else {
@@ -302,7 +302,7 @@ $(document).ready(function(){
         mdlGameInfo = `<div title="preview" class="preview"><br><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4>`
         mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
         mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h3>`;
-        mdlGameInfo += `<h4>@</h4>`;
+        mdlGameInfo += `<h3 class="bold">@</h3>`;
         mdlGameInfo += `<h3>${home_city} ${lnScrDt.home_team_name} `;
         mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div><br>`;
 
@@ -350,7 +350,7 @@ $(document).ready(function(){
           <p class="bold">LAST PLAY: ${lnScrDt.pbp_last}</p>
           <br>
           <p><b>PITCHING:</b> ${lnScrDt.current_pitcher.first} ${lnScrDt.current_pitcher.last}
-            (${lnScrDt.current_pitcher.wins} - ${lnScrDt.current_pitcher.wins}, ${lnScrDt.current_pitcher.era})</p>
+            (${lnScrDt.current_pitcher.wins} - ${lnScrDt.current_pitcher.losses}, ${lnScrDt.current_pitcher.era})</p>
           <p><b>BATTING:</b> ${lnScrDt.current_batter.first_name} ${lnScrDt.current_batter.last_name}
            (${lnScrDt.current_batter.avg})</p>
           <p><b>ON DECK:</b> ${lnScrDt.current_ondeck.first_name} ${lnScrDt.current_ondeck.last_name}</p>
@@ -359,7 +359,7 @@ $(document).ready(function(){
       }
       console.log(lnScrDt);
 
-      $('#venLink').attr("href", venURL).text(placeOG);
+      $('#venLink').attr("href", venURL).text(placeOG.toUpperCase());
       $('#modAddress').text(venAddr);
       $('#modCity').text(city + " "+ venPO);
       $('#callVenue').attr("href", "tel:"+unforPhone).text(phone);
