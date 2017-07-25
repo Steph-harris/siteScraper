@@ -248,9 +248,6 @@ $(document).ready(function(){
       place = "oco-coliseum";
     }
 
-    //angel stadium = angel-stadium-of-anaheim
-
-    $("#gameInfo").empty();
     //send these 4 vars to Node as a req
     $.getJSON(`/foursquare/${place}/${city}/${gameID}`, function(results){
       lnScr = results[0].scores;
@@ -267,6 +264,8 @@ $(document).ready(function(){
       var away_city = cityClean(lnScrDt.away_team_city);
       var home_city = cityClean(lnScrDt.home_team_city);
       var homeCityAndTeam = setHomeColors(home_city +" "+lnScrDt.home_team_name);
+
+      $("#gameInfo").empty();
 
       // console.log(homeCityAndTeam.main);
 
