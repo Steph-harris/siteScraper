@@ -252,7 +252,7 @@ $(document).ready(function(){
     var city = $(this).attr("data-city");
     var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
 
-    preloader('#venueModal');
+    preloader('#gameInfo');
 
     //SETTING NAMES FOR PARKS W/ ALTERNATE 4SQUARE NAMES
     if(place == "AT&TPark"){
@@ -389,7 +389,7 @@ $(document).ready(function(){
       }//Delayed Rain Delay Postponed
 
       $('#venueModal').foundation('open');
-      removePreloader('#venueModal');
+      //removePreloader("#gameInfo");
     });
   });
 
