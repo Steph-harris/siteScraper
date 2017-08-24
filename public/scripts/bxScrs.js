@@ -184,6 +184,16 @@ $(document).ready(function(){
     }
   }];
 
+  function preloader(targetID){
+    var divIn = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
+
+    $(targetID).append('<div class="loadingEff"><div class="waitToLoadText">'+divIn+'</div></div>');
+  }
+
+  function removePreloader(targetID){
+    $(targetID).find('.loadingEff').remove();
+  }
+
   function cityClean(city){
     var TwinTeamCities = {"Ch": "Chicago", "NY" : "New York", "LA" : "Los Angeles"};
     var citySl = city.slice(0,2);
@@ -236,10 +246,13 @@ $(document).ready(function(){
 
   $(document).foundation();
   $(document).on("click", ".game-boxes", function(){
+    //start spinner '#venueModal'
     var placeOG = $(this).attr("data-venue");
     var place = $(this).attr("data-venue").replace(" ", "");
     var city = $(this).attr("data-city");
     var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
+
+    preloader('#venueModal');
 
     //SETTING NAMES FOR PARKS W/ ALTERNATE 4SQUARE NAMES
     if(place == "AT&TPark"){
@@ -376,6 +389,7 @@ $(document).ready(function(){
       }//Delayed Rain Delay Postponed
 
       $('#venueModal').foundation('open');
+      removePreloader('#venueModal');
     });
   });
 
