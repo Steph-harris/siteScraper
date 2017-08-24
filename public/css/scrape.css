@@ -66,6 +66,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   border-radius: 5px;
   background-color: rgba(255,255,255,.9);
   margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 .game-div {
