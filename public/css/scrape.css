@@ -96,6 +96,10 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   /*height: 600px;*/
 }
 
+.loadingEff{
+  text-align: center;
+}
+
 .trans{
   background-color: rgba(255, 255, 255, 0.9);
 }

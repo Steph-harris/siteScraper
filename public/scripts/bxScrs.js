@@ -174,7 +174,7 @@ $(document).ready(function(){
   {
     "name": "Toronto Blue Jays",
     "colors": {
-      "hex": ["134A8E", "1D2D5C", "E8291C"]
+      "hex": ["1D2D5C", "134A8E", "E8291C"]
     }
   },
   {
@@ -183,16 +183,6 @@ $(document).ready(function(){
       "hex": ["11225B", "AB0003"]
     }
   }];
-
-  function preloader(targetID){
-    var divIn = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span class="sr-only">Loading...</span>';
-
-    $(targetID).append('<div class="loadingEff"><div class="waitToLoadText">'+divIn+'</div></div>');
-  }
-
-  function removePreloader(targetID){
-    $(targetID).find('.loadingEff').remove();
-  }
 
   function cityClean(city){
     var TwinTeamCities = {"Ch": "Chicago", "NY" : "New York", "LA" : "Los Angeles"};
