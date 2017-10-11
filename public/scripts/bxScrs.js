@@ -184,6 +184,16 @@ $(document).ready(function(){
     }
   }];
 
+  function cleanGBxs(){
+    var boxes = document.querySelectorAll(".game-boxes");
+
+    boxes.forEach(function(itm){
+      if(itm.attributes[3].value == ""){
+        $(itm).remove();
+      }
+    });
+  };
+
   function cityClean(city){
     var TwinTeamCities = {"Ch": "Chicago", "NY" : "New York", "LA" : "Los Angeles"};
     var citySl = city.slice(0,2);
@@ -225,6 +235,7 @@ $(document).ready(function(){
   if(artHgt>500){
     $("#articleDiv").css("max-height", artHgt);
     $("#gameScroll").css("max-height", gmHgt);
+    $("#Standings_Tbl").css("max-height", gmHgt);
   } else {
     $("#articleDiv").css("height", 400);
     $("#gameScroll").css("height", 400);
@@ -358,6 +369,14 @@ $(document).ready(function(){
           <p><b>ON DECK:</b> ${lnScrDt.current_ondeck.first_name} ${lnScrDt.current_ondeck.last_name}</p>
           <p><b>IN THE HOLE:</b> ${lnScrDt.current_inhole.first_name} ${lnScrDt.current_inhole.last_name}</p>
         </div><br>`;
+      } else if(lnScrDt.status == "Postponed"){
+        mdlGameInfo = `<div title="preview" class="preview"><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4><br>`
+        mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
+        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h3>`;
+        mdlGameInfo += `<h3 class="bold">@</h3>`;
+        mdlGameInfo += `<h3>${home_city} ${lnScrDt.home_team_name} `;
+        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div><br>`;
+        mdlGameInfo += `<br> <h3 class="bold">GAME POSTPONED (${lnScrDt.reason})</h3><br>`;
       }
       console.log(lnScrDt);
 
@@ -376,8 +395,10 @@ $(document).ready(function(){
         $("#gameInfo").append(mdlGameInfo).append(pPitchers);
       } else if(lnScrDt.status == "In Progress"){
         $("#gameInfo").append(mdlGameInfo).append(playerInfo);
-      }//Delayed Rain Delay Postponed
-
+      } //Delayed Rain Delay Postponed
+      else if(lnScrDt.status == "Postponed"){
+        $("#gameInfo").append(mdlGameInfo);
+      }
       $('#venueModal').foundation('open');
       //removePreloader("#gameInfo");
     });
@@ -416,6 +437,8 @@ $(document).ready(function(){
       $(".fa-angle-double-left").show();
     });
   });
+
+  cleanGBxs();
 });
 //modal background to Reveal Orbit
 //CHANGE BOX COLORS BASED ON HOME TEAM OF CLICKED VENUE (AWAY TEAM IF CLICKED 2X)

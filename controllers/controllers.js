@@ -108,7 +108,13 @@ router.get("/", function(req, res){
           var gamesLn = games.length;
           var inP = 0;
 
-          for(var i=0; i<games.length; i++){
+          if(typeof gamesLn == "undefined"){
+            //Returns A Single Object, not Array, if only 1 game
+            gamesLn = 1;
+            data.game[0] = data.game;
+          }
+
+          for(var i=0; i<gamesLn; i++){
             var status = data.game[i].status;
             if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
               data.game[i].showTimeDisplay = true;
@@ -130,7 +136,8 @@ router.get("/", function(req, res){
             }
           }
         }
-        console.log(`there are ${gamesLn} games`);
+        console.log("there are "+ gamesLn +" games");
+        // console.log(games);
         callback(null, games);
       })
     },
@@ -170,7 +177,7 @@ router.get("/gameDate/:date", function(req, res){
     // console.log(data);
     var games = data.game;
     var inP = 0;
-
+console.log("Today's games: "+games);
     //MODIFY JSON TO USE W/ HANDLEBARS
     if(games){
       for(var i=0; i<games.length; i++){
