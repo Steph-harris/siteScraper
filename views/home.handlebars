@@ -77,9 +77,13 @@
               <h4 class="score-bold">{{away_team_name}} {{away_team_runs}} <br> {{home_team_name}} {{home_team_runs}}</h4>
               {{#if inProgress}}
                 <p>Outs: {{outs}}
-                  <a title="View Gameday" href="http://mlb.mlb.com/r/game?gid={{gameday_link}}" target="_blank"><i class="fa fa-headphones" aria-hidden="true"></i></a>
+                  <a title="View Gameday" href="http://mlb.mlb.com/r/game?gid={{gameday_link}}" target="_blank"><i class="fa fa-headphones" aria-hidden="true"></i></a></p>
               {{/if}}
-              </p>
+              {{#if isFinal}}
+                <p>
+                  <a title="View Game Wrapup" href="http://mlb.mlb.com{{wrapup_link}}" target="_blank">Wrapup</a></p>
+              {{/if}}
+
             {{/if}}
           </div>
         {{/each}}

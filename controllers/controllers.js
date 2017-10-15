@@ -94,6 +94,14 @@ request('http://www.mlb.com/home', function (error, response, body) {
   }
 });
 
+router.get("/standings", function(req, res){
+  request('https://erikberg.com/mlb/standings.json', function (error, response, body) {
+      var standPrs = JSON.parse(body);
+
+      console.log(body);
+      console.log(standPrs);
+  });
+});
 
 //Get game data from mlb.com
 router.get("/", function(req, res){
@@ -128,6 +136,7 @@ router.get("/", function(req, res){
             }
 
             if(data.game[i].status == "Final"){
+              data.game[i].isFinal = true;
               console.log(data.game[i]);
             }
 
