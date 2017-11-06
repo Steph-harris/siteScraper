@@ -404,6 +404,11 @@ $(document).ready(function(){
     });
   });
 
+  $("#demoTrigger").click(function(e){
+    e.preventDefault();
+    $('#demoModal').foundation('open')
+  });
+
   $(".game-boxes").hover(function(){
     $(this).attr("title", "Click for Game Information");
     $(this).css("background-color","#cecece");
@@ -414,7 +419,7 @@ $(document).ready(function(){
     $(this).children(".status-tab").css("background-color","#F7742C");
   });
 
-  $(document).on("closeme.zf.reveal", function(){
+  $("#venueModal closeme.zf.reveal").on("click", function(){
     randNum = Math.floor(Math.random() * picLn);
 
     //set pic as background
