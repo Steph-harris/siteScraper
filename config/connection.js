@@ -8,7 +8,7 @@ if(process.env.NODE_ENV === 'production') {
   mongoose.connect(process.env.MONGOLAB_URI);
 } else {
   // LOCAL DB
-  var dbURI = 'mongodb://localhost/scraped';
+  var dbURI = 'mongodb://mongo/scraped';
   console.log("Local mongoose connection is ", dbURI);
   mongoose.connect(dbURI);
 }

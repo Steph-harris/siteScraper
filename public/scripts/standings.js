@@ -24,10 +24,22 @@ $(document).ready(function(){
         </thead></table>`;
 
         _.forEach(teams, function(val){
-          if(i%5 == 0){
-            newRws += `<tr><td>${val.conference} ${val.division}</td><td></td><td></td></tr>`;
+          switch(val.division){
+            case "E":
+              var division = "East"
+              break;
+            case "W":
+              var division = "West"
+              break;
+            case "C":
+              var division = "Central"
+              break;
           }
-          newRws += `<tr><<td>${val.first_name} ${val.last_name }</td><td>${val.won}</td><td>${val.lost}</td><td>${val.games_back}</td></tr>`;
+
+          if(i%5 == 0){
+            newRws += `<tr><td class="div_header" title="${val.conference} ${division} Division Standings"><b>${val.conference} ${division}</b></td><td></td><td></td></tr>`;
+          }
+          newRws += `<tr title="${val.first_name} ${val.last_name } Standing"><<td>${val.first_name} ${val.last_name }</td><td>${val.won}</td><td>${val.lost}</td><td>${val.games_back}</td></tr>`;
           i++;
         });
 

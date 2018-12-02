@@ -105,6 +105,10 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   padding-bottom: 15px;
 }
 
+.div_header{
+  font-size: 1.5rem
+}
+
 @media (max-width:639px) {
   .weatherWidget {
     position: static;
