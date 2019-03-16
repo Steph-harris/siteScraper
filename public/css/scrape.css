@@ -40,6 +40,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 
 .weatherWidget {
   position: absolute;
+  overflow-y: scroll;
 }
 
 .status-tab {

@@ -235,7 +235,7 @@ $(document).ready(function(){
   if(artHgt>500){
     $("#articleDiv").css("max-height", artHgt);
     $("#gameScroll").css("max-height", gmHgt);
-    $("#Standings_Tbl").css("max-height", gmHgt);
+    $("#Standings").css("max-height", gmHgt);
   } else {
     $("#articleDiv").css("height", 400);
     $("#gameScroll").css("height", 400);
