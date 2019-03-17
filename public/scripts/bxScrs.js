@@ -235,7 +235,7 @@ $(document).ready(function(){
   if(artHgt>500){
     $("#articleDiv").css("max-height", artHgt);
     $("#gameScroll").css("max-height", gmHgt);
-    $("#Standings").css("max-height", gmHgt);
+    $("#Standings").css("max-height", artHgt);
   } else {
     $("#articleDiv").css("height", 400);
     $("#gameScroll").css("height", 400);
@@ -423,7 +423,7 @@ $(document).ready(function(){
     randNum = Math.floor(Math.random() * picLn);
 
     //set pic as background
-    $('#venueModal').css("background-image", "url("+picDt[randNum]+")");
+    $('#venueModal').css("background-image", "url("+picDt[0]+")");
   });
 
   $(document).on("click", ".fa-angle-double-left", function(){

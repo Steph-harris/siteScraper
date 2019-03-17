@@ -3,6 +3,7 @@ services:
   web:
     build: .
     volumes:
+      - /usr/app/node_modules
       - .:/usr/app
     ports:
       - "8090:8090"
