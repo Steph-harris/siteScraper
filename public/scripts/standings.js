@@ -16,7 +16,7 @@ $(document).ready(function(){
       var teams = dt.standing;
       var i = 0;
       var stStr = "(Standings as of " + stDt.substr(5, 5) + ")";
-      var newTb = `<table id='Standings_Tbl'>
+      var newTb = `<div id="tableDiv"><table id='Standings_Tbl'>
                     <thead>
                       <th>Team</th>
                       <th>W</th>
@@ -25,7 +25,7 @@ $(document).ready(function(){
                       <th>Last 10</th>
                       <th>Streak</th>
                     </thead>
-                  </table>`;
+                  </table></div>`;
 
         _.forEach(teams, function(val){
           switch(val.division){

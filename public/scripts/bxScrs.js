@@ -3,6 +3,7 @@ $(document).ready(function(){
   var mainHgt = screen.height;
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
+  var refreshTime = 60000
   var teamColors = [{
     "name": "Arizona D-backs",
     "colors": {
@@ -184,6 +185,21 @@ $(document).ready(function(){
     }
   }];
 
+  var time = new Date().getTime();
+  $(document.body).bind("mousemove keypress", function(e) {
+      time = new Date().getTime();
+  });
+
+  function refresh() {
+      if(new Date().getTime() - time >= refreshTime){
+        window.location.reload(true);
+      } else {
+        setTimeout(refresh, 30000);
+      }
+  }
+  // check for activity every 30 seconds
+  setTimeout(refresh, 30000);
+
   function cleanGBxs(){
     var boxes = document.querySelectorAll(".game-boxes");
 
@@ -280,6 +296,7 @@ $(document).ready(function(){
       var homeCityAndTeam = setHomeColors(home_city +" "+lnScrDt.home_team_name);
 
       $("#gameInfo").empty();
+      $('#venueModal').css("background-image", "url('"+picDt[0]+"')");
 
       // console.log(homeCityAndTeam.main);
 
@@ -423,7 +440,9 @@ $(document).ready(function(){
     randNum = Math.floor(Math.random() * picLn);
 
     //set pic as background
-    $('#venueModal').css("background-image", "url("+picDt[0]+")");
+    // $('#venueModal').css("background-image", "url("+picDt[0]+")");
+    $('#venueModal').css("background-image", "url('"+picDt[0]+"')");
+
   });
 
   $(document).on("click", ".fa-angle-double-left", function(){
