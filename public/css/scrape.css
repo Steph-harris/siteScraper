@@ -10,6 +10,10 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   text-align: center;
 }
 
+#pageContent {
+    max-width: 95%;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -38,8 +42,12 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   color:#F7742C;
 }
 
-.weatherWidget {
-  position: absolute;
+#Standings {
+  display: inline-block;
+}
+
+#tableDiv {
+  max-height: 850px;
   overflow-y: scroll;
 }
 
@@ -90,7 +98,6 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 #venueModal{
   background-size: cover;
   background-repeat: no-repeat;
-  /*height: 600px;*/
 }
 
 .loadingEff{

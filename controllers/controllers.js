@@ -56,7 +56,7 @@ function getVenuePhotos(venueID, callback){
         //send back array of pic links
         callback(picsArray);
       } else {
-        console.log("Error occurred:" + error);
+        console.log("Error fetching venue photos:" + error);
       }
   });
 }
@@ -80,17 +80,17 @@ request('http://www.mlb.com/home', function (error, response, body) {
       if(headline && headLink && headDate){
         newHeadline.save(function(err, saved){
           if(err){
-            console.log(err);
+            // console.log(err);
           } else {
-            console.log("saved to db");
+            // console.log("saved to db");
           }
         });
       } else {
-        console.log("nothing saved");
+        // console.log("nothing saved");
       }
     });
   } else {
-    console.log("error occurred while scraping");
+    // console.log("error occurred while scraping");
   }
 });
 
@@ -131,13 +131,10 @@ router.get("/", function(req, res){
             if(data.game[i].status == "In Progress"){
               data.game[i].inProgress = true;
               inP++;
-              //only show info for in status games
-              console.log(data.game[i]);
             }
 
             if(data.game[i].status == "Final"){
               data.game[i].isFinal = true;
-              console.log(data.game[i]);
             }
 
             if(data.game[i].top_inning == "Y"){
@@ -146,7 +143,6 @@ router.get("/", function(req, res){
           }
         }
         console.log("there are "+ gamesLn +" games");
-        // console.log(games);
         callback(null, games);
       })
     },
@@ -168,7 +164,6 @@ router.get("/", function(req, res){
   });
 });
 
-
 router.get("/gameDate/:date", function(req, res){
   var date;
 
@@ -186,7 +181,7 @@ router.get("/gameDate/:date", function(req, res){
     // console.log(data);
     var games = data.game;
     var inP = 0;
-console.log("Today's games: "+games);
+    // console.log("Today's games: "+games);
     //MODIFY JSON TO USE W/ HANDLEBARS
     if(games){
       for(var i=0; i<games.length; i++){
@@ -199,11 +194,11 @@ console.log("Today's games: "+games);
           data.game[i].inProgress = true;
           inP++;
           //only show info for in status games
-          console.log(data.game[i]);
+          // console.log(data.game[i]);
         }
 
         if(data.game[i].status == "Final"){
-          console.log(data.game[i]);
+          // console.log(data.game[i]);
         }
 
         if(data.game[i].top_inning == "Y"){
@@ -211,7 +206,7 @@ console.log("Today's games: "+games);
         }
       }
     }
-    // callback(null, games);
+    callback(null, games);
     res.send(games);
   });
 });
@@ -239,6 +234,7 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
   var FourSRURL = "https://api.foursquare.com/v2/venues/search?intent=global&query="
     FourSRURL += place+"&limit=1&client_secret="+ strp
     FourSRURL += "&client_id="+client+"&v="+version;
+
   var getPhts = function(){
     request(FourSRURL,
       function (error, response, body) {
@@ -256,7 +252,7 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
             res.send(venueData);
           });
         } else {
-          console.log("Error occurred:" + error);
+          console.log("Error fetching venue id: " + error);
         }
       })
     };
@@ -265,14 +261,13 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
 
   gamedayHelper.linescore(gDt)
   .then(function(data){
-    // console.log(data);
     var dt = JSON.parse(data);
     venueData.push({"scores": dt});
 
     getPhts();
   })
   .catch( function(error) {
-  console.log(error);
+    console.log(error);
   });
 });
 
