@@ -47,7 +47,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 }
 
 #tableDiv {
-  max-height: 850px;
+  max-height: 750px;
   overflow-y: scroll;
 }
 
