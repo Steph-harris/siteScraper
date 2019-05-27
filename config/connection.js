@@ -13,8 +13,9 @@ if(process.env.NODE_ENV === 'production') {
   console.log("Local mongoose connection is ", dbURI);
 }
 
-db.openUri(dbURI, {
-  useMongoClient: true,
+mongoose.connect(dbURI, {
+  keepAlive: true,
+  useMongoClient: true
 });
 
 db.on('error', function(err) {

@@ -82,15 +82,15 @@ request('http://www.mlb.com/home', function (error, response, body) {
           if(err){
             // console.log(err);
           } else {
-            // console.log("saved to db");
+            console.log("saved to db");
           }
         });
       } else {
-        // console.log("nothing saved");
+        console.log("nothing saved");
       }
     });
   } else {
-    // console.log("error occurred while scraping");
+    console.log("error occurred while scraping");
   }
 });
 
@@ -193,12 +193,6 @@ router.get("/gameDate/:date", function(req, res){
         if(data.game[i].status == "In Progress"){
           data.game[i].inProgress = true;
           inP++;
-          //only show info for in status games
-          // console.log(data.game[i]);
-        }
-
-        if(data.game[i].status == "Final"){
-          // console.log(data.game[i]);
         }
 
         if(data.game[i].top_inning == "Y"){
