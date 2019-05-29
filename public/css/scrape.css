@@ -51,6 +51,35 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   overflow-y: scroll;
 }
 
+#leagueSelect {
+  margin: 0px;
+}
+
+#leagueSelect a {
+  margin: 0px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.activeBtn {
+  background-color: #004685;
+  color: #f8f8f8
+}
+.activeBtn:hover {
+  background-color: #415f7a;
+  color: #f8f8f8
+}
+
+.fadeBtn {
+  background-color: #f8f8f8;
+  color: #004585;
+}
+
+.fadeBtn:hover {
+  background-color: #e2e1e1;
+  color: #004585;
+}
+
 .status-tab {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -123,6 +152,12 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   .weatherWidget {
     position: static;
     margin-bottom: 10px;
+  }
+
+  @media screen and (min-width:1200px) {
+    .game-title {
+      white-space: nowrap;
+    }
   }
 
   @media screen and (max-height: 750px){

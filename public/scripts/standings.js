@@ -16,17 +16,38 @@ $(document).ready(function(){
       var teams = dt.standing;
       var i = 0;
       var stStr = "(Standings as of " + stDt.substr(5, 5) + ")";
-      var newTb = `<div id="tableDiv"><table id='Standings_Tbl'>
-                    <thead>
-                      <th>Team</th>
-                      <th>W</th>
-                      <th>L</th>
-                      <th>G.B.</th>
-                      <th>Last 10</th>
-                      <th>Streak</th>
-                    </thead>
-                  </table></div>`;
-
+      var newTb = `<div id="tableDiv">
+                      <table id='Standings_Tbl'>
+                        <thead>
+                          <th>Team</th>
+                          <th>W</th>
+                          <th>L</th>
+                          <th>G.B.</th>
+                          <th>Last 10</th>
+                          <th>Streak</th>
+                        </thead>
+                      </table>
+                  </div>`;
+      var nationalTb = `<table id='nationalTbl'>
+                          <thead>
+                            <th>Team</th>
+                            <th>W</th>
+                            <th>L</th>
+                            <th>G.B.</th>
+                            <th>Last 10</th>
+                            <th>Streak</th>
+                          </thead>
+                        </table>`;
+      var americanTb = `<table id='americanTbl'>
+                          <thead>
+                            <th>Team</th>
+                            <th>W</th>
+                            <th>L</th>
+                            <th>G.B.</th>
+                            <th>Last 10</th>
+                            <th>Streak</th>
+                          </thead>
+                        </table>`;
         _.forEach(teams, function(val){
           switch(val.division){
             case "E":
@@ -46,7 +67,7 @@ $(document).ready(function(){
           if(i%5 == 0){
             rowEntry += `<tr>
                         <td class="div_header" title="${newDiv} Division Standings">
-                        <b>${newDiv}</b>
+                        <b>${division}</b>
                         </td><td>
                         </td><td>
                         </td><td>
@@ -56,13 +77,13 @@ $(document).ready(function(){
                       </tr>`;
           }
           rowEntry += `<tr title="${val.first_name} ${val.last_name } Standing">
-                      <<td>${val.first_name} ${val.last_name }</td>
-                      <td>${val.won}</td>
-                      <td>${val.lost}</td>
-                      <td>${val.games_back}</td>
-                      <td>${val.last_ten}</td>
-                      <td>${val.streak}</td>
-                    </tr>`;
+                        <<td>${val.first_name} ${val.last_name }</td>
+                        <td>${val.won}</td>
+                        <td>${val.lost}</td>
+                        <td>${val.games_back}</td>
+                        <td>${val.last_ten}</td>
+                        <td>${val.streak}</td>
+                       </tr>`;
 
           newObj[newDiv] += rowEntry;
           i++;
@@ -70,12 +91,12 @@ $(document).ready(function(){
 
         $("#Standings").attr("title", stStr);
         $("#Standings").append(newTb);
-        $("#Standings_Tbl").append(newObj['NL East']);
-        $("#Standings_Tbl").append(newObj['NL Central']);
-        $("#Standings_Tbl").append(newObj['NL West']);
-        $("#Standings_Tbl").append(newObj['AL East']);
-        $("#Standings_Tbl").append(newObj['AL Central']);
-        $("#Standings_Tbl").append(newObj['AL West']);
+        $("#nationalTbl").append(newObj['NL East']);
+        $("#nationalTbl").append(newObj['NL Central']);
+        $("#nationalTbl").append(newObj['NL West']);
+        $("#americanTb").append(newObj['AL East']);
+        $("#americanTb").append(newObj['AL Central']);
+        $("#americanTb").append(newObj['AL West']);
         $(".div_header").parent().css("background-color", "#004685");
         removePreloader("#Standings");
     });
