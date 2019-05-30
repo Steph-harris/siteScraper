@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+# NAME
+#    bootstrap -- initialize/update docker environment
+#
+# SYNOPSIS
+#    bootstrap
+#
+# DESCRIPTION
+#    Execute this script without parameters to build the local docker
+#    environment.  Once bootstrapped, dependent services are running
+#    via docker-compose and the environment variables are written to
+#    *build/test-environment* for future use.
+
+set -e
+
+# Common constants
+COLOR_RESET='\033[0m'
+COLOR_GREEN='\033[0;32m'
+TEST_HOST="${TEST_HOST:-localhost}"
+
+get_container() {
+    docker-compose ps -q $1
+}
+
+get_container_name() {
+   docker inspect --format '{{ .Name }}' $1
+}
+
+get_ipaddr() {
+    docker inspect --format '{{ .NetworkSettings.IPAddress }}' $1
+}
+
+get_exposed_port() {
+    docker-compose ${COMPOSE_ARGS} port $1 $2 | cut -d: -f2
+}
+
+report_start() {
+    printf "Waiting for $1 ... "
+}
+
+report_done() {
+    printf "${COLOR_GREEN}done${COLOR_RESET}\n"
+}
+
+# Ensure Docker is Running
+if test -e /var/run/docker.sock
+then
+  DOCKER_IP=127.0.0.1
+else
+  echo "Docker environment not detected."
+  exit 1
+fi
+
+# Activate the virtual environment
+if test -e env/bin/activate
+then
+    . env/bin/activate
+fi
+
+# Stop any running instances and clean up after them, then pull images
+docker-compose down --volumes --remove-orphans
+docker-compose pull -q
+
+docker-compose up -d --quiet-pull mongo
+docker build . -t sharris/mlbscrape:latest
+docker-compose up -d web
+
+printf "\nBootstrap complete\n"

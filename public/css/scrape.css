@@ -55,29 +55,35 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   margin: 0px;
 }
 
-#leagueSelect a {
+#leagueSelect input {
   margin: 0px;
   font-size: 18px;
   font-weight: bold;
+  outline:none;
 }
 
-.activeBtn {
-  background-color: #004685;
+.activeBtn, .activeBtn:visited, .activeBtn:focus {
+  background-color: #f7742d;
   color: #f8f8f8
 }
 .activeBtn:hover {
-  background-color: #415f7a;
+  background-color: #ab501e;
   color: #f8f8f8
 }
 
-.fadeBtn {
+.fadeBtn, .fadeBtn:visited, .fadeBtn:focus {
   background-color: #f8f8f8;
-  color: #004585;
+  color: #f7742d;
 }
 
 .fadeBtn:hover {
   background-color: #e2e1e1;
-  color: #004585;
+  color: #f7742d;
+}
+
+.whiteColor td {
+  color: white;
+  font-weight: bold;
 }
 
 .status-tab {
