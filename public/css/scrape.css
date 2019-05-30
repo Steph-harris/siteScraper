@@ -11,7 +11,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 }
 
 #pageContent {
-    max-width: 95%;
+    max-width: 98%;
 }
 
 .bold {
@@ -44,6 +44,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 
 #Standings {
   display: inline-block;
+  padding: 0px;
 }
 
 #tableDiv {
@@ -57,6 +58,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 
 #leagueSelect input {
   margin: 0px;
+  padding: 15px 4px;
   font-size: 18px;
   font-weight: bold;
   outline:none;
