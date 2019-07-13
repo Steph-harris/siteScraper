@@ -48,8 +48,12 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 }
 
 #tableDiv {
-  max-height: 750px;
+  max-height: 700px;
   overflow-y: scroll;
+}
+
+#tableDiv > table {
+  margin-bottom: 0;
 }
 
 #leagueSelect {
@@ -62,6 +66,7 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   font-size: 18px;
   font-weight: bold;
   outline:none;
+  white-space: normal;
 }
 
 .activeBtn, .activeBtn:visited, .activeBtn:focus {
@@ -111,6 +116,11 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
   cursor: pointer;
 }
 
+div.game-boxes:last-child,
+h4.score-bold:last-child {
+  margin-bottom: 0;
+}
+
 .game-div {
   padding-right: 0;
 }
@@ -147,7 +157,6 @@ h1, h3, #gameInfo h4, p, #disclaimer, .centered, #gameInfo h5 {
 
 #gameScroll{
   overflow-y: scroll;
-  padding-bottom: 15px;
 }
 
 .div_header{
