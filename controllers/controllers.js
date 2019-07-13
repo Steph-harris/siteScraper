@@ -6,7 +6,6 @@ var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
 var gamedayHelper = require( 'gameday-helper' );
-var nba = require('nba');
 var logger = require("morgan");
 var async = require("async");
 var db = require("../config/connection.js");
