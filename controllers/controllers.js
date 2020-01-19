@@ -114,7 +114,8 @@ router.get("/standings", function(req, res){
 router.get("/", function(req, res){
   async.parallel({
     games: function(callback){
-      gamedayHelper.miniScoreboard(today)
+      // gamedayHelper.miniScoreboard(today)
+      gamedayHelper.masterScoreboard(today)
       .then(function(data){
         var games = data.game;
 
