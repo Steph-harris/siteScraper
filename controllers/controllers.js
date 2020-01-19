@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+var compression = require('compression');
 var express = require("express");
 var router = express.Router();
 var bodyParser = require("body-parser");
@@ -22,6 +23,7 @@ tomorrow.setDate(today.getDate() + 1);
 
 console.log(`today is ${today}`);
 
+router.use(compression());
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
 
@@ -93,12 +95,18 @@ request('http://www.mlb.com/home', function (error, response, body) {
   }
 });
 
+const standings_request = {
+  url: 'https://erikberg.com/mlb/standings.json',
+  headers: {
+    'User-Agent': 'DailyMLBriefing/1.0.0 +https://mlbscrape.herokuapp.com/'
+  }
+};
+
 router.get("/standings", function(req, res){
-  request('https://erikberg.com/mlb/standings.json', function (error, response, body) {
+  request(standings_request, function (error, response, body) {
       var standPrs = JSON.parse(body);
 
-      console.log(body);
-      console.log(standPrs);
+      // console.log(standPrs);
   });
 });
 
@@ -152,7 +160,7 @@ router.get("/", function(req, res){
         if(err){
           console.log(err);
         } else {
-          console.log(dbHeadlines);
+          // console.log(dbHeadlines);
         }
         callback(null, dbHeadlines);
       });
@@ -175,7 +183,8 @@ router.get("/gameDate/:date", function(req, res){
   }
 
 
-  gamedayHelper.miniScoreboard(date)
+  // gamedayHelper.miniScoreboard(date)
+  gamedayHelper.masterScoreboard(date)
   .then(function(data){
     // console.log(data);
     var games = data.game;

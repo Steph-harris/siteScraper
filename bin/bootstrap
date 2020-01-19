@@ -60,10 +60,10 @@ fi
 
 # Stop any running instances and clean up after them, then pull images
 docker-compose down --volumes --remove-orphans
-docker-compose pull -q
+docker-compose pull
 
-docker-compose up -d --quiet-pull mongo
+docker-compose up -d mongo
 docker build . -t sharris/mlbscrape:latest
-docker-compose up -d web
+docker-compose up -d --build web
 
 printf "\nBootstrap complete\n"
