@@ -114,7 +114,6 @@ router.get("/standings", function(req, res){
 router.get("/", function(req, res){
   async.parallel({
     games: function(callback){
-      // gamedayHelper.miniScoreboard(today)
       gamedayHelper.masterScoreboard(today)
       .then(function(data){
         var games = data.game;
@@ -130,18 +129,18 @@ router.get("/", function(req, res){
             data.game[0] = data.game;
           }
 
-          for(var i=0; i<gamesLn; i++){
-            var status = data.game[i].status;
+          for(let i=0; i < gamesLn; i++){
+            let status = data.game[i].status.status;
             if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
               data.game[i].showTimeDisplay = true;
             }
 
-            if(data.game[i].status == "In Progress"){
+            if(status == "In Progress"){
               data.game[i].inProgress = true;
               inP++;
             }
 
-            if(data.game[i].status == "Final"){
+            if(status == "Final"){
               data.game[i].isFinal = true;
             }
 
@@ -183,8 +182,6 @@ router.get("/gameDate/:date", function(req, res){
     date = today;
   }
 
-
-  // gamedayHelper.miniScoreboard(date)
   gamedayHelper.masterScoreboard(date)
   .then(function(data){
     // console.log(data);

@@ -63,35 +63,31 @@
           <div class="game-boxes" data-venue='{{venue}}' data-city='{{location}}' data-id='{{id}}''>
             <div class="status-tab">
               {{#if inProgress}}
-                {{#if topHalf}}
-                  <h6>Top {{inning}}</h6>
-                  {{else}}
-                  <h6>Bottom {{inning}}</h6>
-                {{/if}}
+                <h6>{{status.inning_state}} {{status.inning}}</h6>
               {{else}}
                 {{#if showTimeDisplay}}
-                  <h6>{{time}} {{tz_aw_lg_gen}}</h6>
+                  <h6>{{time}} {{tz_hm_lg_gen}}</h6>
                   {{else}}
                   <h6></h6>
                 {{/if}}
               {{/if}}
 
-              <h6 class="float-right">{{status}}</h6>
+              <h6 class="float-right">{{status.status}}</h6>
             </div>
             <h5 class="game-title">{{away_name_abbrev}}({{away_win}}-{{away_loss}})
             @ {{home_name_abbrev}}({{home_win}}-{{home_loss}})</h5>
             {{#if away_probable_pitcher.last_name}}
               <h4 class="game-pitchers">{{away_probable_pitcher.last_name}} vs. {{home_probable_pitcher.last_name}}</h4>
-              <a href="http://mlb.mlb.com{{preview_link}}" target="_blank">Preview Matchup</a>
+              <a href="http://mlb.mlb.com{{links.preview}}" target="_blank">Preview Matchup</a>
               {{else}}
-              <h4 class="score-bold">{{away_team_name}} {{away_team_runs}} <br> {{home_team_name}} {{home_team_runs}}</h4>
+              <h4 class="score-bold">{{away_team_name}} {{linescore.r.away}} <br> {{home_team_name}} {{linescore.r.home}}</h4>
               {{#if inProgress}}
-                <p>Outs: {{outs}}
-                  <a title="View Gameday" href="http://mlb.mlb.com/r/game?gid={{gameday_link}}" target="_blank"><i class="fa fa-headphones" aria-hidden="true"></i></a></p>
+                <p>Outs: {{status.o}}
+                  <a title="View Gameday" href="https://www.mlb.com/gameday/{{game_pk}}" target="_blank"><i class="fa fa-headphones" aria-hidden="true"></i></a></p>
               {{/if}}
               {{#if isFinal}}
                 <p>
-                  <a title="View Game Wrapup" href="http://mlb.mlb.com{{wrapup_link}}" target="_blank">Wrapup</a></p>
+                  <a title="View Game Wrapup" href="http://mlb.mlb.com{{links.wrapup}}" target="_blank">Wrapup</a></p>
               {{/if}}
 
             {{/if}}
