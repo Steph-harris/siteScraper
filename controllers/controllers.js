@@ -154,7 +154,7 @@ router.get("/", function(req, res){
       })
     },
     dbHeadlines: function(callback){
-      Headline.find({}).sort({headDate: -1}).limit(10)
+      Headline.find({}).lean().sort({headDate: -1}).limit(10)
       .populate("notes")
       .exec(function(err, dbHeadlines){
         if(err){
@@ -213,7 +213,7 @@ router.get("/gameDate/:date", function(req, res){
 
 router.get("/scrapedData", function(req, res){
   //grab all data from Headline table starting from bottom
-  Headline.find({}).sort({headDate: -1}).limit(10)
+  Headline.find({}).lean().sort({headDate: -1}).limit(10)
   .populate("notes")
   .exec(function(err, dbHeadlines){
     if(err){
