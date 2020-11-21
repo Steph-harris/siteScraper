@@ -15,7 +15,8 @@ if(process.env.NODE_ENV === 'production') {
 
 mongoose.connect(dbURI, {
   keepAlive: true,
-  useMongoClient: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
 
 db.on('error', function(err) {

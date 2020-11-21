@@ -1,7 +1,7 @@
-var mongoose = require("mongoose");
-var Schema = mongoose.Schema;
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
-var HeadlineSchema = new Schema({
+const HeadlineSchema = new Schema({
   headline: {
     type: String,
     unique: true
@@ -15,6 +15,6 @@ var HeadlineSchema = new Schema({
   notes: [{ type: Schema.Types.ObjectId, ref: 'Note'}]
 });
 
-var Headline = mongoose.model("Headline", HeadlineSchema);
+const Headline = mongoose.model("Headline", HeadlineSchema);
 
 module.exports = Headline;

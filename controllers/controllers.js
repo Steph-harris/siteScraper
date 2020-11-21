@@ -120,7 +120,7 @@ router.get("/", function(req, res){
 
         //MODIFY JSON TO USE W/ HANDLEBARS
         if(games){
-          var gamesLn = games.length;
+          var gamesLn = games.length ? games.length : 0;
           var inP = 0;
 
           if(typeof gamesLn == "undefined"){
@@ -149,7 +149,7 @@ router.get("/", function(req, res){
             }
           }
         }
-        console.log("there are "+ gamesLn +" games");
+        console.log("there are "+ gamesLn +" games today");
         callback(null, games);
       })
     },
