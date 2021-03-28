@@ -2,13 +2,8 @@ $(document).ready(function(){
   var getMLBStandings = function(){
     preloader("#Standings");
     //do Ajax
-    $.ajax({
-      headers: { "Accept": "application/json"},
-      method: "GET",
-      url: "https://cors-anywhere.herokuapp.com/https://erikberg.com/mlb/standings.json",
-      crossDomain: true,
-      dataType: "json",
-    }).done(function(dt){
+    $.get("/standings")
+      .done(function(dt){
       console.log(dt);
         var stDt = dt.standings_date;
         var teamsLn = dt.standing.length;

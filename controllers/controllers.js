@@ -95,11 +95,21 @@ request('http://www.mlb.com/home', function (error, response, body) {
 });
 
 router.get("/standings", function(req, res){
-  request('https://erikberg.com/mlb/standings.json', function (error, response, body) {
+  let url = 'https://erikberg.com/mlb/standings.json';
+
+  const options = {
+    path: url,
+    headers:{
+      'User-Agent': 'mlbscraper/1.0.0 (https://github.com/Steph-harris/siteScraper)'
+    }
+  };
+
+  request(options, function (error, response, body) {
       var standPrs = JSON.parse(body);
 
       console.log(body);
       console.log(standPrs);
+      return standPrs
   });
 });
 
