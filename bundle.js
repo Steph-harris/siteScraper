@@ -1,9 +1,77 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports) {
+
 $(document).ready(function(){
   var picObj, venDt, lnScr, lnScrDt, picDt, picLn, randNum, mdlGameInfo, currInpdate;
   var mainHgt = screen.height;
   var artHgt = mainHgt;
   var gmHgt = artHgt -50;
-  var refreshTime = 60000
   var teamColors = [{
     "name": "Arizona D-backs",
     "colors": {
@@ -175,7 +243,7 @@ $(document).ready(function(){
   {
     "name": "Toronto Blue Jays",
     "colors": {
-      "hex": ["1D2D5C", "134A8E", "E8291C"]
+      "hex": ["134A8E", "1D2D5C", "E8291C"]
     }
   },
   {
@@ -184,31 +252,6 @@ $(document).ready(function(){
       "hex": ["11225B", "AB0003"]
     }
   }];
-
-  var time = new Date().getTime();
-  $(document.body).bind("mousemove keypress", function(e) {
-      time = new Date().getTime();
-  });
-
-  function refresh() {
-      if(new Date().getTime() - time >= refreshTime){
-        window.location.reload(true);
-      } else {
-        setTimeout(refresh, 30000);
-      }
-  }
-  // check for activity every 30 seconds
-  setTimeout(refresh, 30000);
-
-  function cleanGBxs(){
-    var boxes = document.querySelectorAll(".game-boxes");
-
-    boxes.forEach(function(itm){
-      if(itm.attributes[3].value == ""){
-        $(itm).remove();
-      }
-    });
-  };
 
   function cityClean(city){
     var TwinTeamCities = {"Ch": "Chicago", "NY" : "New York", "LA" : "Los Angeles"};
@@ -251,7 +294,6 @@ $(document).ready(function(){
   if(artHgt>500){
     $("#articleDiv").css("max-height", artHgt);
     $("#gameScroll").css("max-height", gmHgt);
-    $("#Standings").css("max-height", artHgt);
   } else {
     $("#articleDiv").css("height", 400);
     $("#gameScroll").css("height", 400);
@@ -263,13 +305,10 @@ $(document).ready(function(){
 
   $(document).foundation();
   $(document).on("click", ".game-boxes", function(){
-    //start spinner '#venueModal'
     var placeOG = $(this).attr("data-venue");
     var place = $(this).attr("data-venue").replace(" ", "");
     var city = $(this).attr("data-city");
     var gameID = $(this).attr("data-id").replace(/\/|\-/g, "");
-
-    preloader('#gameInfo');
 
     //SETTING NAMES FOR PARKS W/ ALTERNATE 4SQUARE NAMES
     if(place == "AT&TPark"){
@@ -296,7 +335,8 @@ $(document).ready(function(){
       var homeCityAndTeam = setHomeColors(home_city +" "+lnScrDt.home_team_name);
 
       $("#gameInfo").empty();
-      $('#venueModal').css("background-image", "url('"+picDt[0]+"')");
+
+      // console.log(homeCityAndTeam.main);
 
       //GAME INFO BASED ON STATUS
       if(lnScrDt.status == "Final" || lnScrDt.status == "Game Over"){
@@ -384,14 +424,6 @@ $(document).ready(function(){
           <p><b>ON DECK:</b> ${lnScrDt.current_ondeck.first_name} ${lnScrDt.current_ondeck.last_name}</p>
           <p><b>IN THE HOLE:</b> ${lnScrDt.current_inhole.first_name} ${lnScrDt.current_inhole.last_name}</p>
         </div><br>`;
-      } else if(lnScrDt.status == "Postponed"){
-        mdlGameInfo = `<div title="preview" class="preview"><h4>SCHEDULED FIRST PITCH: ${lnScrDt.time} ${lnScrDt.time_zone} </h4><br>`
-        mdlGameInfo += `<h3>${away_city} ${lnScrDt.away_team_name} `;
-        mdlGameInfo += `(${lnScrDt.away_win} - ${lnScrDt.away_loss})</h3>`;
-        mdlGameInfo += `<h3 class="bold">@</h3>`;
-        mdlGameInfo += `<h3>${home_city} ${lnScrDt.home_team_name} `;
-        mdlGameInfo += `(${lnScrDt.home_win} - ${lnScrDt.home_loss})</h3></div><br>`;
-        mdlGameInfo += `<br> <h3 class="bold">GAME POSTPONED (${lnScrDt.reason})</h3><br>`;
       }
       console.log(lnScrDt);
 
@@ -410,18 +442,10 @@ $(document).ready(function(){
         $("#gameInfo").append(mdlGameInfo).append(pPitchers);
       } else if(lnScrDt.status == "In Progress"){
         $("#gameInfo").append(mdlGameInfo).append(playerInfo);
-      } //Delayed Rain Delay Postponed
-      else if(lnScrDt.status == "Postponed"){
-        $("#gameInfo").append(mdlGameInfo);
-      }
-      $('#venueModal').foundation('open');
-      //removePreloader("#gameInfo");
-    });
-  });
+      }//Delayed Rain Delay Postponed
 
-  $("#demoTrigger").click(function(e){
-    e.preventDefault();
-    $('#demoModal').foundation('open')
+      $('#venueModal').foundation('open');
+    });
   });
 
   $(".game-boxes").hover(function(){
@@ -432,6 +456,13 @@ $(document).ready(function(){
     $(this).attr("title", "");
     $(this).css("background-color","white");
     $(this).children(".status-tab").css("background-color","#F7742C");
+  });
+
+  $(document).on("closeme.zf.reveal", function(){
+    randNum = Math.floor(Math.random() * picLn);
+
+    //set pic as background
+    $('#venueModal').css("background-image", "url("+picDt[randNum]+")");
   });
 
   $(document).on("click", ".fa-angle-double-left", function(){
@@ -450,11 +481,13 @@ $(document).ready(function(){
       $(".fa-angle-double-left").show();
     });
   });
-
-  cleanGBxs();
 });
 //modal background to Reveal Orbit
 //CHANGE BOX COLORS BASED ON HOME TEAM OF CLICKED VENUE (AWAY TEAM IF CLICKED 2X)
 //Make boxes more obviously clickable
 //Set modal size based on picture
 //add foundation preloader while modal loads
+
+
+/***/ })
+/******/ ]);

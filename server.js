@@ -1,12 +1,12 @@
-var express = require("express");
-var exphbs = require("express-handlebars");
-var app = express();
-var PORT = process.env.PORT || 8090;
+const express = require("express");
+const exphbs = require("express-handlebars");
+const app = express();
+const PORT = process.env.PORT || 8090;
 
 app.engine('handlebars', exphbs({defaultLayout:'main'}));
 app.set('view engine', 'handlebars');
 
-var routes = require('./controllers/controllers.js');
+const routes = require('./controllers/controllers.js');
 
 app.use(routes);
 

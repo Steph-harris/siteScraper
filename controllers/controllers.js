@@ -1,12 +1,12 @@
 require("dotenv").config();
 
+var compression = require('compression');
 var express = require("express");
 var router = express.Router();
 var bodyParser = require("body-parser");
 var request = require("request");
 var cheerio = require("cheerio");
 var gamedayHelper = require( 'gameday-helper' );
-var nba = require('nba');
 var logger = require("morgan");
 var async = require("async");
 var db = require("../config/connection.js");
@@ -23,6 +23,7 @@ tomorrow.setDate(today.getDate() + 1);
 
 console.log(`today is ${today}`);
 
+router.use(compression());
 //get css,js, or images from files in public folder
 router.use(express.static('public'));
 
@@ -56,7 +57,7 @@ function getVenuePhotos(venueID, callback){
         //send back array of pic links
         callback(picsArray);
       } else {
-        console.log("Error occurred:" + error);
+        console.log("Error fetching venue photos:" + error);
       }
   });
 }
@@ -80,7 +81,7 @@ request('http://www.mlb.com/home', function (error, response, body) {
       if(headline && headLink && headDate){
         newHeadline.save(function(err, saved){
           if(err){
-            console.log(err);
+            // console.log(err);
           } else {
             console.log("saved to db");
           }
@@ -94,21 +95,19 @@ request('http://www.mlb.com/home', function (error, response, body) {
   }
 });
 
+const standings_request = {
+  url: 'https://erikberg.com/mlb/standings.json',
+  headers: {
+    'User-Agent': 'DailyMLBriefing/1.0.0 +https://mlbscrape.herokuapp.com/'
+  }
+};
+
 router.get("/standings", function(req, res){
-  let url = 'https://erikberg.com/mlb/standings.json';
-
-  const options = {
-    path: url,
-    headers:{
-      'User-Agent': 'mlbscraper/1.0.0 (https://github.com/Steph-harris/siteScraper)'
-    }
-  };
-
-  request(options, function (error, response, body) {
+  request(standings_request, function (error, response, body) {
       var standPrs = JSON.parse(body);
 
-      console.log(body);
-      console.log(standPrs);
+      // console.log(body);
+      // console.log(standPrs);
       return standPrs
   });
 });
@@ -117,13 +116,13 @@ router.get("/standings", function(req, res){
 router.get("/", function(req, res){
   async.parallel({
     games: function(callback){
-      gamedayHelper.miniScoreboard(today)
+      gamedayHelper.masterScoreboard(today)
       .then(function(data){
         var games = data.game;
 
         //MODIFY JSON TO USE W/ HANDLEBARS
         if(games){
-          var gamesLn = games.length;
+          var gamesLn = games.length ? games.length : 0;
           var inP = 0;
 
           if(typeof gamesLn == "undefined"){
@@ -132,22 +131,19 @@ router.get("/", function(req, res){
             data.game[0] = data.game;
           }
 
-          for(var i=0; i<gamesLn; i++){
-            var status = data.game[i].status;
+          for(let i=0; i < gamesLn; i++){
+            let status = data.game[i].status.status;
             if( status == "Preview" || status == "Pre-Game" || status == "Warmup"){
               data.game[i].showTimeDisplay = true;
             }
 
-            if(data.game[i].status == "In Progress"){
+            if(status == "In Progress"){
               data.game[i].inProgress = true;
               inP++;
-              //only show info for in status games
-              console.log(data.game[i]);
             }
 
-            if(data.game[i].status == "Final"){
+            if(status == "Final"){
               data.game[i].isFinal = true;
-              console.log(data.game[i]);
             }
 
             if(data.game[i].top_inning == "Y"){
@@ -155,19 +151,18 @@ router.get("/", function(req, res){
             }
           }
         }
-        console.log("there are "+ gamesLn +" games");
-        // console.log(games);
+        console.log("there are "+ gamesLn +" games today");
         callback(null, games);
       })
     },
     dbHeadlines: function(callback){
-      Headline.find({}).sort({headDate: -1}).limit(10)
+      Headline.find({}).lean().sort({headDate: -1}).limit(10)
       .populate("notes")
       .exec(function(err, dbHeadlines){
         if(err){
           console.log(err);
         } else {
-          console.log(dbHeadlines);
+          // console.log(dbHeadlines);
         }
         callback(null, dbHeadlines);
       });
@@ -177,7 +172,6 @@ router.get("/", function(req, res){
       res.render("home", {pageData: results})
   });
 });
-
 
 router.get("/gameDate/:date", function(req, res){
   var date;
@@ -190,13 +184,12 @@ router.get("/gameDate/:date", function(req, res){
     date = today;
   }
 
-
-  gamedayHelper.miniScoreboard(date)
+  gamedayHelper.masterScoreboard(date)
   .then(function(data){
     // console.log(data);
     var games = data.game;
     var inP = 0;
-console.log("Today's games: "+games);
+    // console.log("Today's games: "+games);
     //MODIFY JSON TO USE W/ HANDLEBARS
     if(games){
       for(var i=0; i<games.length; i++){
@@ -208,12 +201,6 @@ console.log("Today's games: "+games);
         if(data.game[i].status == "In Progress"){
           data.game[i].inProgress = true;
           inP++;
-          //only show info for in status games
-          console.log(data.game[i]);
-        }
-
-        if(data.game[i].status == "Final"){
-          console.log(data.game[i]);
         }
 
         if(data.game[i].top_inning == "Y"){
@@ -221,14 +208,14 @@ console.log("Today's games: "+games);
         }
       }
     }
-    // callback(null, games);
+    callback(null, games);
     res.send(games);
   });
 });
 
 router.get("/scrapedData", function(req, res){
   //grab all data from Headline table starting from bottom
-  Headline.find({}).sort({headDate: -1}).limit(10)
+  Headline.find({}).lean().sort({headDate: -1}).limit(10)
   .populate("notes")
   .exec(function(err, dbHeadlines){
     if(err){
@@ -249,6 +236,7 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
   var FourSRURL = "https://api.foursquare.com/v2/venues/search?intent=global&query="
     FourSRURL += place+"&limit=1&client_secret="+ strp
     FourSRURL += "&client_id="+client+"&v="+version;
+
   var getPhts = function(){
     request(FourSRURL,
       function (error, response, body) {
@@ -266,7 +254,7 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
             res.send(venueData);
           });
         } else {
-          console.log("Error occurred:" + error);
+          console.log("Error fetching venue id: " + error);
         }
       })
     };
@@ -275,14 +263,13 @@ router.get("/foursquare/:place/:city/:gameID", function(req, res){
 
   gamedayHelper.linescore(gDt)
   .then(function(data){
-    // console.log(data);
     var dt = JSON.parse(data);
     venueData.push({"scores": dt});
 
     getPhts();
   })
   .catch( function(error) {
-  console.log(error);
+    console.log(error);
   });
 });
 
